@@ -1,0 +1,155 @@
+@startuml DiagramaDeComponentes
+skinparam backgroundColor white
+skinparam defaultFontName Arial
+skinparam defaultFontSize 11
+skinparam ArrowColor #555555
+skinparam linetype ortho
+
+skinparam component {
+  BackgroundColor #FFFDE7
+  BorderColor #E65100
+  FontStyle bold
+}
+skinparam package {
+  BackgroundColor #FFF8F0
+  BorderColor #FF8F00
+  Style rectangle
+}
+skinparam database {
+  BackgroundColor #E8F5E9
+  BorderColor #2E7D32
+}
+skinparam node {
+  BackgroundColor #E3F2FD
+  BorderColor #1565C0
+  FontStyle bold
+}
+skinparam rectangle {
+  BackgroundColor #F5F5F5
+  BorderColor #9E9E9E
+}
+
+title Diagrama de Componentes — Sistema de Moeda Estudantil
+
+' ==============================
+'  INTERFACES DOS ATORES
+' ==============================
+node "<<interface>>\nInterface Web\nAluno" as UIAluno
+node "<<interface>>\nInterface Web\nProfessor" as UIProf
+node "<<interface>>\nInterface Web\nEmpresa Parceira" as UIEmp
+
+' ==============================
+'  API GATEWAY
+' ==============================
+rectangle "API  /api/moeda-estudantil" as GW {
+  component "Roteador REST\n+ Auth Filter (JWT)" as Router
+}
+
+' ==============================
+'  COMPONENTE: AUTENTICACAO
+' ==============================
+package "Autenticacao" as PkgAuth {
+  component "Auth\nComponent" as CompAuth
+  database "usuarios\n(email / senha)" as DBAuth
+}
+
+' ==============================
+'  COMPONENTE: ALUNOS
+' ==============================
+package "Alunos" as PkgAluno {
+  component "Aluno\nComponent" as CompAluno
+  database "alunos\ncursos\ninstituicoes" as DBAluno
+}
+
+' ==============================
+'  COMPONENTE: PROFESSORES
+' ==============================
+package "Professores" as PkgProf {
+  component "Professor\nComponent" as CompProf
+  database "professores\ncotas_semestrais" as DBProf
+}
+
+' ==============================
+'  COMPONENTE: EMPRESAS PARCEIRAS
+' ==============================
+package "Empresas Parceiras" as PkgEmp {
+  component "Empresa\nComponent" as CompEmp
+  database "empresas_parceiras\nvantagens" as DBEmp
+}
+
+' ==============================
+'  COMPONENTE: TRANSACOES
+' ==============================
+package "Transacoes" as PkgTrans {
+  component "Transacao\nComponent" as CompTrans
+  database "transacoes" as DBTrans
+}
+
+' ==============================
+'  COMPONENTE: RESGATES
+' ==============================
+package "Resgates" as PkgResg {
+  component "Resgate\nComponent" as CompResg
+  database "resgates" as DBResg
+}
+
+' ==============================
+'  SUBSISTEMA: NOTIFICACOES
+' ==============================
+package "Notificacoes" as PkgNotif #E8F5E9 {
+  component "Notificacao\nComponent" as CompNotif
+  component "Gerador de\nCupom" as CompCupom
+  component "Servico de\nE-mail (SMTP)" as CompEmail
+}
+
+' ==============================
+'  ATORES -> API
+' ==============================
+UIAluno -down-> Router : REST / HTTPS
+UIProf  -down-> Router : REST / HTTPS
+UIEmp   -down-> Router : REST / HTTPS
+
+' ==============================
+'  API -> COMPONENTES
+' ==============================
+Router -down-> CompAuth  : REST
+Router -down-> CompAluno : REST
+Router -down-> CompProf  : REST
+Router -down-> CompEmp   : REST
+Router -down-> CompTrans : REST
+Router -down-> CompResg  : REST
+
+' ==============================
+'  COMPONENTES -> BANCOS DE DADOS
+' ==============================
+CompAuth  -down-> DBAuth  : TCP/IP
+CompAluno -down-> DBAluno : TCP/IP
+CompProf  -down-> DBProf  : TCP/IP
+CompEmp   -down-> DBEmp   : TCP/IP
+CompTrans -down-> DBTrans : TCP/IP
+CompResg  -down-> DBResg  : TCP/IP
+
+' ==============================
+'  DEPENDENCIAS ENTRE COMPONENTES
+' ==============================
+CompTrans -[#1565C0]-> CompAluno : consulta/debita saldo aluno
+CompTrans -[#1565C0]-> CompProf  : consulta/debita saldo professor
+CompResg  -[#1565C0]-> CompAluno : debita saldo aluno
+CompResg  -[#1565C0]-> CompEmp   : valida vantagem
+
+' ==============================
+'  FLUXO DE NOTIFICACOES
+' ==============================
+CompTrans -[#E65100]-> CompNotif : notifica envio de moedas
+CompResg  -[#E65100]-> CompNotif : notifica resgate
+CompResg  -[#E65100]-> CompCupom : solicita geracao de cupom
+CompCupom -[#E65100]-> CompEmail : envia cupom por e-mail
+CompNotif -[#E65100]-> CompEmail : envia notificacao por e-mail
+
+' ==============================
+'  E-MAIL -> ATORES
+' ==============================
+CompEmail -up-> UIAluno : e-mail (notificacao / cupom)
+CompEmail -up-> UIProf  : e-mail (confirmacao de envio)
+
+@enduml
