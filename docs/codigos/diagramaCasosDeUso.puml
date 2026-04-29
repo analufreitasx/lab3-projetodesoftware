@@ -1,0 +1,56 @@
+@startuml Sistema_Moeda_Estudantil_v2
+
+left to right direction
+skinparam packageStyle rectangle
+skinparam usecase {
+  BackgroundColor White
+  BorderColor DarkSlateGray
+  ArrowColor DarkSlateGray
+}
+
+actor Aluno
+actor Professor
+actor "Empresa Parceira" as Empresa
+
+rectangle "Sistema de Moeda Estudantil" {
+
+  usecase "Autenticar" as UC_AUTH
+
+  ' --- Aluno ---
+  usecase "Cadastrar-se (aluno)"       as UC_CAD_ALUNO
+  usecase "Consultar extrato (aluno)"  as UC_EXT_ALUNO
+  usecase "Resgatar vantagem"          as UC_RESGATAR
+  usecase "Notificar aluno por email"  as UC_NOTIF      #lightgray
+  usecase "Enviar email de cupom"      as UC_CUPOM      #lightgray
+
+  ' --- Professor ---
+  usecase "Enviar moedas ao aluno"        as UC_ENVIAR
+  usecase "Consultar extrato (professor)" as UC_EXT_PROF
+  usecase "Receber cota semestral"        as UC_COTA
+
+  ' --- Empresa ---
+  usecase "Cadastrar-se (empresa)" as UC_CAD_EMP
+  usecase "Cadastrar vantagem"     as UC_CAD_VANT
+  usecase "Validar resgate (cupom)" as UC_VALIDAR
+}
+
+Aluno     --> UC_AUTH
+Aluno     --> UC_CAD_ALUNO
+Aluno     --> UC_EXT_ALUNO
+Aluno     --> UC_RESGATAR
+
+Professor --> UC_AUTH
+Professor --> UC_ENVIAR
+Professor --> UC_EXT_PROF
+Professor --> UC_COTA
+
+Empresa   --> UC_AUTH
+Empresa   --> UC_CAD_EMP
+Empresa   --> UC_CAD_VANT
+Empresa   --> UC_VALIDAR
+
+UC_ENVIAR    .> UC_NOTIF  : «include»
+UC_RESGATAR  .> UC_NOTIF  : «include»
+UC_RESGATAR  .> UC_CUPOM  : «include»
+
+@enduml
