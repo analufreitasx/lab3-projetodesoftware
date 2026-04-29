@@ -1,0 +1,115 @@
+@startuml DiagramaDeClasses
+
+skinparam classAttributeIconSize 0
+skinparam classFontStyle bold
+skinparam backgroundColor white
+skinparam class {
+  BackgroundColor #F8F8F8
+  BorderColor #555555
+  ArrowColor #333333
+}
+
+abstract class Usuario {
+  - id: int
+  - email: String
+  - senha: String
+  + autenticar(login: String, senha: String): boolean
+}
+
+class Instituicao {
+  - id: int
+  - nome: String
+  - endereco: String
+  - email: String
+  - telefone: String
+}
+
+class Curso {
+  - id: int
+  - nome: String
+  - instituicao: Instituicao
+}
+
+class Aluno {
+  - id: int
+  - nome: String
+  - cpf: String
+  - rg: String
+  - endereco: String
+  - saldo: double
+  - curso: Curso
+  - instituicao: Instituicao
+  + consultarExtrato(): Page<Transacao>
+  + resgatarVantagem(v: Vantagem): Resgate
+}
+
+class Professor {
+  - id: int
+  - nome: String
+  - cpf: String
+  - departamento: String
+  - saldo: double
+  - instituicao: Instituicao
+  + enviarMoedas(aluno: Aluno, valor: double, motivo: String): Transacao
+  + consultarExtrato(): Page<Transacao>
+  + coletarCotaSemestral(): CotaSemestral
+}
+
+class EmpresaParceira {
+  - id: int
+  - nome: String
+  + cadastrarVantagem(v: Vantagem): void
+}
+
+class Vantagem {
+  - id: int
+  - descricao: String
+  - fotoUrl: String
+  - custoMoedas: double
+  - empresa: EmpresaParceira
+}
+
+class Transacao {
+  - id: int
+  - professor: Professor
+  - aluno: Aluno
+  - valor: double
+  - motivo: String
+  - data: LocalDateTime
+}
+
+class CotaSemestral {
+  - id: int
+  - professor: Professor
+  - valor: double
+  - data: LocalDateTime
+}
+
+class Resgate {
+  - id: int
+  - aluno: Aluno
+  - vantagem: Vantagem
+  - valorMoedas: double
+  - codigoCupom: String
+  - data: LocalDateTime
+  + gerarCodigoCupom(): String
+}
+
+' Heranca
+Usuario <|-- Aluno
+Usuario <|-- Professor
+Usuario <|-- EmpresaParceira
+
+' Associacoes
+Instituicao "1" o-- "0..*" Curso         : possui >
+Instituicao "1" o-- "0..*" Aluno         : matricula >
+Instituicao "1" o-- "0..*" Professor     : emprega >
+Curso "1" o-- "0..*" Aluno               : agrupa >
+EmpresaParceira "1" *-- "1..*" Vantagem  : oferece >
+Professor "1" --> "0..*" Transacao       : envia moedas >
+Professor "1" --> "0..*" CotaSemestral   : coleta >
+Aluno "1" --> "0..*" Transacao           : recebe moedas >
+Aluno "1" --> "0..*" Resgate             : resgata >
+Vantagem "1" --> "0..*" Resgate          : e resgatada em >
+
+@enduml

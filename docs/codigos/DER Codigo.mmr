@@ -1,0 +1,99 @@
+---
+config:
+  theme: dark
+  look: neo
+  fontFamily: '''Open Sans Variable'', sans-serif'
+  themeVariables:
+    fontFamily: '''Open Sans Variable'', sans-serif'
+  layout: elk
+---
+erDiagram
+	direction TB
+	INSTITUICOES {
+		int id PK ""  
+		string nome  ""  
+		string endereco  ""  
+		string email  ""  
+		string telefone  ""  
+	}
+
+	ALUNOS {
+		int id PK ""  
+		string nome  ""  
+		string email  ""  
+		string cpf  ""  
+		string rg  ""  
+		string endereco  ""  
+		int curso_id FK ""  
+		string senha  ""  
+		float saldo  ""  
+		int instituicao_id FK ""  
+	}
+
+	PROFESSORES {
+		int id PK ""  
+		string nome  ""  
+		string cpf  ""  
+		string departamento  ""  
+		string email  ""  
+		string senha  ""  
+		float saldo  ""  
+		int instituicao_id FK ""  
+	}
+
+	EMPRESAS_PARCEIRAS {
+		int id PK ""  
+		string nome  ""  
+		string email  "" 
+		string senha  ""  
+	}
+
+	VANTAGENS {
+		int id PK ""  
+		string descricao  ""  
+		string foto_url  ""  
+		float custo_moedas  ""  
+		int empresa_id FK ""  
+	}
+
+	CURSOS {
+		int id PK ""  
+		string nome  ""  
+		int instituicao_id FK ""  
+	}
+
+	TRANSACOES {
+		int id PK ""  
+		int professor_id FK ""  
+		int aluno_id FK ""  
+		float valor  ""  
+		string motivo  ""  
+		datetime data  ""  
+	}
+
+    COTAS_SEMESTRAIS {
+        int id PK
+        int professor_id FK
+        datetime data
+        float valor
+    }
+
+	RESGATES {
+		int id PK ""  
+		int aluno_id FK ""  
+		int vantagem_id FK ""  
+		float valor_moedas  ""  
+		string codigo_cupom  ""  
+		datetime data  ""  
+	}
+
+	INSTITUICOES||--o{ALUNOS:"matricula"
+	INSTITUICOES||--o{PROFESSORES:"emprega"
+	INSTITUICOES||--o{CURSOS:"registra"
+	PROFESSORES||--o{TRANSACOES:"envia moedas"
+	ALUNOS||--o{TRANSACOES:"recebe moedas"
+	ALUNOS}o--||CURSOS:"participa"
+	ALUNOS||--o{RESGATES:"resgata"
+	VANTAGENS||--o{RESGATES:"e resgatada em"
+	PROFESSORES||--o{COTAS_SEMESTRAIS:"coleta"
+    EMPRESAS_PARCEIRAS||--o{VANTAGENS:"oferece"
