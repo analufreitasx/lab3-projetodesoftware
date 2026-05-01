@@ -2,23 +2,6 @@
 
 # 🏷️ Sistema de Moeda Estudantil 👨‍💻
 
-<table>
-  <tr>
-    <td width="800px">
-      <div align="justify">
-        Este <b>README.md</b> apresenta um template organizado, ideal para servir como referência acadêmica e profissional em projetos de desenvolvimento, desde trabalhos da faculdade até projetos desenvolvidos para etapas técnicas de processos seletivos. Ele reúne as <i>seções essenciais</i> recomendadas pelo <a href="https://github.com/joaopauloaramuni">Prof. Dr. João Paulo Aramuni</a>, permitindo <i>organização clara</i>, <i>documentação eficiente</i> e <i>padronização</i> entre diferentes trabalhos. O objetivo deste esqueleto é <b>facilitar a construção de projetos bem documentados</b>, oferecendo um <i>guia completo</i> que inclui <b>boas práticas</b>, instruções de execução, tecnologias utilizadas, arquitetura, estruturas de pastas, testes, links úteis e orientações para colaboração. Esse template ajuda estudantes a desenvolverem <b>documentação de qualidade profissional</b> desde os primeiros períodos, promovendo <i>clareza</i>, <i>reprodutibilidade</i> e <i>padronização</i> nos projetos.
-      </div>
-    </td>
-    <td>
-      <div>
-        <img src="https://joaopauloaramuni.github.io/image/logo_ES_vertical.png" alt="Logo do Projeto" width="120px"/>
-      </div>
-    </td>
-  </tr> 
-</table>
-
----
-
 ## 🚧 Status do Projeto
 
 ### Exemplos de badges básicos:
@@ -74,9 +57,9 @@ As seguintes ferramentas, frameworks e bibliotecas foram utilizados na construç
 
 ### 🖥️ Back-end
 
-* **Linguagem/Runtime:** Java 17 (JDK)
+* **Linguagem/Runtime:** Java 21 (JDK)
 * **Framework:** Spring Boot 3.x
-* **Banco de Dados:** 
+* **Banco de Dados:** PostgreSQL
 * **ORM / Query Builder:** Hibernate/JPA
 * **Autenticação:** JWT, OAuth2, Spring Security
 
@@ -107,7 +90,7 @@ Para melhor visualização e entendimento da estrutura do sistema, os diagramas 
 ### Pré-requisitos
 Certifique-se de que o usuário tenha o ambiente configurado.
 
-* **Java JDK:** Versão **17** ou superior (Necessário para o **Back-end Spring Boot**)
+* **Java JDK:** Versão **21** ou superior (Necessário para o **Back-end Spring Boot**)
 * **Node.js:** Versão LTS (v18.x ou superior) (Necessário para o **Front-end React**)
 * **Gerenciador de Pacotes:** npm ou yarn
 * **Docker** (Opcional, mas **altamente recomendado** para rodar o Banco de Dados)
@@ -121,11 +104,12 @@ Certifique-se de que o usuário tenha o ambiente configurado.
 
 
 ## 👥 Autores
-Liste os principais contribuidores. Você pode usar links para seus perfis.
 
-| 👤 Nome | 🖼️ Foto | :octocat: GitHub | 💼 LinkedIn | 📤 Gmail |
-|---------|----------|-----------------|-------------|-----------|
-| Nome 1  | <div align="center"><img src="https://joaopauloaramuni.github.io/image/aramunilogo.png" width="70px" height="70px"></div> | <div align="center"><a href="https://github.com/user1"><img src="https://joaopauloaramuni.github.io/image/github6.png" width="50px" height="50px"></a></div> | <div align="center"><a href="https://www.linkedin.com/in/user1"><img src="https://joaopauloaramuni.github.io/image/linkedin2.png" width="50px" height="50px"></a></div> | <div align="center"><a href="mailto:user1@gmail.com"><img src="https://joaopauloaramuni.github.io/image/gmail3.png" width="50px" height="50px"></a></div> |
-| Nome 2  | <div align="center"><img src="https://joaopauloaramuni.github.io/image/aramunilogo.png" width="70px" height="70px"></div> | <div align="center"><a href="https://github.com/user2"><img src="https://joaopauloaramuni.github.io/image/github6.png" width="50px" height="50px"></a></div> | <div align="center"><a href="https://www.linkedin.com/in/user2"><img src="https://joaopauloaramuni.github.io/image/linkedin2.png" width="50px" height="50px"></a></div> | <div align="center"><a href="mailto:user2@gmail.com"><img src="https://joaopauloaramuni.github.io/image/gmail3.png" width="50px" height="50px"></a></div> |
+| 👤 Nome | GitHub | 💼 LinkedIn |
+|---------|-----------------|-------------|
+| Ana Luiza | <div align="center"><a href="https://github.com/analufreitasx"><img src="https://joaopauloaramuni.github.io/image/github6.png" width="50px" height="50px"></a></div> | <div align="center"><a href="https://www.linkedin.com/in/ana-luizadefreitas/"><img src="https://joaopauloaramuni.github.io/image/linkedin2.png" width="50px" height="50px"></a></div> |
+| Kayke Emanoel | <div align="center"><a href="https://github.com/Eman134"><img src="https://joaopauloaramuni.github.io/image/github6.png" width="50px" height="50px"></a></div> | <div align="center"><a href="https://www.linkedin.com/in/kaykeeman/"><img src="https://joaopauloaramuni.github.io/image/linkedin2.png" width="50px" height="50px"></a></div> |
+| Renato Douglas | <div align="center"><a href="https://github.com/RenatoDNS"><img src="https://joaopauloaramuni.github.io/image/github6.png" width="50px" height="50px"></a></div> | <div align="center"><a href="https://www.linkedin.com/in/renatodns/"><img src="https://joaopauloaramuni.github.io/image/linkedin2.png" width="50px" height="50px"></a></div> |
+| Vicenzo Fonseca | <div align="center"><a href="https://github.com/vicenzofms"><img src="https://joaopauloaramuni.github.io/image/github6.png" width="50px" height="50px"></a></div> | <div align="center"><a href="https://www.linkedin.com/in/vicenzo-fonseca/"><img src="https://joaopauloaramuni.github.io/image/linkedin2.png" width="50px" height="50px"></a></div> |
 
 
