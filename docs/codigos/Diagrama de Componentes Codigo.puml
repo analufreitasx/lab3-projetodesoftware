@@ -3,7 +3,7 @@ skinparam backgroundColor white
 skinparam defaultFontName Arial
 skinparam defaultFontSize 11
 skinparam ArrowColor #555555
-skinparam linetype ortho
+skinparam linetype polyline
 
 skinparam component {
   BackgroundColor #FFFDE7
@@ -103,31 +103,31 @@ package "Notificacoes" as PkgNotif #E8F5E9 {
 }
 
 ' ==============================
-'  ATORES -> API
+'  INTERFACES WEB -> API (envia: mão | recebe: bolinha)
 ' ==============================
-UIAluno -down-> Router : REST / HTTPS
-UIProf  -down-> Router : REST / HTTPS
-UIEmp   -down-> Router : REST / HTTPS
+UIAluno -(0- Router : REST / HTTPS
+UIProf  -(0- Router : REST / HTTPS
+UIEmp   -(0- Router : REST / HTTPS
 
 ' ==============================
-'  API -> COMPONENTES
+'  API -> COMPONENTES (envia: mão | recebe: bolinha)
 ' ==============================
-Router -down-> CompAuth  : REST
-Router -down-> CompAluno : REST
-Router -down-> CompProf  : REST
-Router -down-> CompEmp   : REST
-Router -down-> CompTrans : REST
-Router -down-> CompResg  : REST
+Router -(0- CompAuth  : REST
+Router -(0- CompAluno : REST
+Router -(0- CompProf  : REST
+Router -(0- CompEmp   : REST
+Router -(0- CompTrans : REST
+Router -(0- CompResg  : REST
 
 ' ==============================
-'  COMPONENTES -> BANCOS DE DADOS
+'  COMPONENTES -> BANCOS DE DADOS (envia: mão | recebe: bolinha)
 ' ==============================
-CompAuth  -down-> DBAuth  : TCP/IP
-CompAluno -down-> DBAluno : TCP/IP
-CompProf  -down-> DBProf  : TCP/IP
-CompEmp   -down-> DBEmp   : TCP/IP
-CompTrans -down-> DBTrans : TCP/IP
-CompResg  -down-> DBResg  : TCP/IP
+CompAuth  -(0- DBAuth  : TCP/IP
+CompAluno -(0- DBAluno : TCP/IP
+CompProf  -(0- DBProf  : TCP/IP
+CompEmp   -(0- DBEmp   : TCP/IP
+CompTrans -(0- DBTrans : TCP/IP
+CompResg  -(0- DBResg  : TCP/IP
 
 ' ==============================
 '  DEPENDENCIAS ENTRE COMPONENTES
