@@ -2,7 +2,7 @@ spring:
   application:
     name: moeda-estudantil
   datasource:
-    url: jdbc:sqlserver://moeda-estudantil.database.windows.net:1433;database=MoedaEstudantil;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;
+    url: jdbc:sqlserver://moeda-estudantil.database.windows.net:1433;database=db-moeda-estudantil-des;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;
     username: moedaestudantil@moeda-estudantil
     password: ${DB_PASSWORD}
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
