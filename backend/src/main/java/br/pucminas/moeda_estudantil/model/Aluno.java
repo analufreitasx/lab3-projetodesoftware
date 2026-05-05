@@ -1,9 +1,11 @@
-import jakarta.persistence.*;
-import lombok.*;
+package br.pucminas.moeda_estudantil.model;
 
-import java.util.List;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-@Serdeable
 @Entity
 @Table(name = "aluno")
 @Data
@@ -15,16 +17,6 @@ public class Aluno extends Usuario {
     @Column(unique = true)
     private String cpf;
 
-    private String profissao;
-
-    private String cep;
-    private String logradouro;
-    private String numero;
-    private String complemento;
-    private String bairro;
-    private String cidade;
-    private String estado;
-    private Double saldo;
-    private String instituição // Alterar tipo para instituiçao pos implementação
-    private String curso // Alterar tipo para curso pos implementação
+    private String curso;
+    private String instituicao;
 }
