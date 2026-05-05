@@ -1,0 +1,406 @@
+<main class="px-5 py-10 sm:px-8 lg:py-16">
+  <section
+    class="mx-auto grid w-full max-w-6xl items-start gap-8 lg:grid-cols-[0.85fr_1fr]"
+    aria-labelledby="auth-title"
+  >
+    <aside
+      class="rounded-[2rem] border border-primary-300/15 bg-surface-900/70 p-8 shadow-2xl shadow-primary-950/30 lg:p-10"
+    >
+      <h1 id="auth-title" class="mt-5 text-4xl font-bold tracking-tight text-white sm:text-5xl">
+        {{ titulo() }}
+      </h1>
+      <p class="mt-5 text-base leading-7 text-slate-300">{{ subtitulo() }}</p>
+
+      <div class="mt-10" role="group" aria-label="Escolha entre login ou registro">
+        <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
+          <button
+            type="button"
+            class="rounded-3xl border p-4 text-left transition duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-300 focus-visible:ring-offset-2 focus-visible:ring-offset-night-950"
+            [class.border-primary-300]="modoAtual() === 'login'"
+            [class.bg-primary-500/15]="modoAtual() === 'login'"
+            [class.text-white]="modoAtual() === 'login'"
+            [class.border-primary-300/10]="modoAtual() !== 'login'"
+            [class.bg-night-950/45]="modoAtual() !== 'login'"
+            [class.text-slate-200]="modoAtual() !== 'login'"
+            [attr.aria-pressed]="modoAtual() === 'login'"
+            (click)="selecionarLogin()"
+          >
+            <span class="block font-semibold">Login</span>
+            <span class="mt-1 block text-sm text-slate-400">Alunos, professores e empresas</span>
+          </button>
+
+          <div class="relative">
+            <button
+              type="button"
+              class="w-full rounded-3xl border p-4 text-left transition duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-300 focus-visible:ring-offset-2 focus-visible:ring-offset-night-950"
+              [class.border-primary-300]="estaEmModoCadastro()"
+              [class.bg-primary-500/15]="estaEmModoCadastro()"
+              [class.text-white]="estaEmModoCadastro()"
+              [class.border-primary-300/10]="!estaEmModoCadastro()"
+              [class.bg-night-950/45]="!estaEmModoCadastro()"
+              [class.text-slate-200]="!estaEmModoCadastro()"
+              [attr.aria-expanded]="menuCadastroAberto()"
+              aria-controls="opcoes-cadastro"
+              (click)="alternarMenuCadastro()"
+            >
+              <span class="flex items-center justify-between gap-3">
+                <span>
+                  <span class="block font-semibold">Registro</span>
+                  <span class="mt-1 block text-sm text-slate-400">Aluno ou empresa parceira</span>
+                </span>
+                <span
+                  class="text-primary-100 transition"
+                  [class.rotate-180]="menuCadastroAberto()"
+                  aria-hidden="true"
+                  >⌄</span
+                >
+              </span>
+            </button>
+
+            @if (menuCadastroAberto()) {
+              <div
+                id="opcoes-cadastro"
+                class="menu-cadastro absolute left-0 right-0 top-[calc(100%+0.75rem)] z-20 rounded-3xl border border-primary-300/15 bg-night-950/95 p-2 shadow-2xl shadow-primary-950/40 backdrop-blur"
+              >
+                <button
+                  type="button"
+                  class="w-full rounded-2xl px-4 py-3 text-left transition hover:bg-primary-500/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-300"
+                  [class.bg-primary-500/15]="modoAtual() === 'cadastro-aluno'"
+                  [attr.aria-pressed]="modoAtual() === 'cadastro-aluno'"
+                  (click)="selecionarModoCadastro('cadastro-aluno')"
+                >
+                  <span class="block font-semibold text-white">Cadastrar aluno</span>
+                  <span class="mt-1 block text-sm text-slate-400">Crie seu acesso estudantil</span>
+                </button>
+                <button
+                  type="button"
+                  class="mt-1 w-full rounded-2xl px-4 py-3 text-left transition hover:bg-primary-500/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-300"
+                  [class.bg-primary-500/15]="modoAtual() === 'cadastro-empresa'"
+                  [attr.aria-pressed]="modoAtual() === 'cadastro-empresa'"
+                  (click)="selecionarModoCadastro('cadastro-empresa')"
+                >
+                  <span class="block font-semibold text-white">Cadastrar empresa</span>
+                  <span class="mt-1 block text-sm text-slate-400"
+                    >Publique vantagens parceiras</span
+                  >
+                </button>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <section
+      class="painel-autenticacao w-full rounded-[2rem] border border-primary-300/15 bg-night-900/80 p-6 shadow-2xl shadow-primary-950/30 transition-all duration-300 sm:p-8 lg:p-10"
+      [class.max-h-[calc(100dvh-9rem)]]="modoAtual() === 'cadastro-aluno'"
+      [class.overflow-y-auto]="modoAtual() === 'cadastro-aluno'"
+    >
+      @switch (modoAtual()) {
+        @case ('cadastro-aluno') {
+          <form
+            class="space-y-6"
+            [formGroup]="formularioAluno"
+            (ngSubmit)="enviarCadastroAluno()"
+            novalidate
+          >
+            <div class="grid gap-5 sm:grid-cols-2">
+              <div class="sm:col-span-2">
+                <label class="mb-2 block text-sm font-medium text-slate-200" for="student-name"
+                  >Nome completo</label
+                >
+                <input
+                  id="student-name"
+                  class="w-full rounded-2xl border border-primary-300/15 bg-surface-950 px-4 py-3 text-white outline-none transition focus:border-primary-300 focus:ring-2 focus:ring-primary-400/30"
+                  type="text"
+                  formControlName="nome"
+                  autocomplete="name"
+                  [attr.aria-invalid]="deveMostrarErro(formularioAluno.controls.nome)"
+                  aria-describedby="student-name-error"
+                />
+                @if (deveMostrarErro(formularioAluno.controls.nome)) {
+                  <p id="student-name-error" class="mt-2 text-sm text-red-300">Informe seu nome.</p>
+                }
+              </div>
+
+              <div>
+                <label class="mb-2 block text-sm font-medium text-slate-200" for="student-cpf"
+                  >CPF</label
+                >
+                <input
+                  id="student-cpf"
+                  class="w-full rounded-2xl border border-primary-300/15 bg-surface-950 px-4 py-3 text-white outline-none transition focus:border-primary-300 focus:ring-2 focus:ring-primary-400/30"
+                  type="text"
+                  formControlName="cpf"
+                  autocomplete="off"
+                  [attr.aria-invalid]="deveMostrarErro(formularioAluno.controls.cpf)"
+                  aria-describedby="student-cpf-error"
+                />
+                @if (deveMostrarErro(formularioAluno.controls.cpf)) {
+                  <p id="student-cpf-error" class="mt-2 text-sm text-red-300">Informe seu CPF.</p>
+                }
+              </div>
+
+              <div>
+                <label class="mb-2 block text-sm font-medium text-slate-200" for="student-rg"
+                  >RG</label
+                >
+                <input
+                  id="student-rg"
+                  class="w-full rounded-2xl border border-primary-300/15 bg-surface-950 px-4 py-3 text-white outline-none transition focus:border-primary-300 focus:ring-2 focus:ring-primary-400/30"
+                  type="text"
+                  formControlName="rg"
+                  autocomplete="off"
+                  [attr.aria-invalid]="deveMostrarErro(formularioAluno.controls.rg)"
+                  aria-describedby="student-rg-error"
+                />
+                @if (deveMostrarErro(formularioAluno.controls.rg)) {
+                  <p id="student-rg-error" class="mt-2 text-sm text-red-300">Informe seu RG.</p>
+                }
+              </div>
+
+              <div class="sm:col-span-2">
+                <label class="mb-2 block text-sm font-medium text-slate-200" for="student-address"
+                  >Endereço</label
+                >
+                <input
+                  id="student-address"
+                  class="w-full rounded-2xl border border-primary-300/15 bg-surface-950 px-4 py-3 text-white outline-none transition focus:border-primary-300 focus:ring-2 focus:ring-primary-400/30"
+                  type="text"
+                  formControlName="endereco"
+                  autocomplete="street-address"
+                  [attr.aria-invalid]="deveMostrarErro(formularioAluno.controls.endereco)"
+                  aria-describedby="student-address-error"
+                />
+                @if (deveMostrarErro(formularioAluno.controls.endereco)) {
+                  <p id="student-address-error" class="mt-2 text-sm text-red-300">
+                    Informe seu endereço.
+                  </p>
+                }
+              </div>
+
+              <div>
+                <label
+                  class="mb-2 block text-sm font-medium text-slate-200"
+                  for="student-institution"
+                  >Instituição</label
+                >
+                <input
+                  id="student-institution"
+                  class="w-full rounded-2xl border border-primary-300/15 bg-surface-950 px-4 py-3 text-white outline-none transition focus:border-primary-300 focus:ring-2 focus:ring-primary-400/30"
+                  type="text"
+                  formControlName="instituicao"
+                  autocomplete="organization"
+                  [attr.aria-invalid]="deveMostrarErro(formularioAluno.controls.instituicao)"
+                  aria-describedby="student-institution-error"
+                />
+                @if (deveMostrarErro(formularioAluno.controls.instituicao)) {
+                  <p id="student-institution-error" class="mt-2 text-sm text-red-300">
+                    Informe sua instituição.
+                  </p>
+                }
+              </div>
+
+              <div>
+                <label class="mb-2 block text-sm font-medium text-slate-200" for="student-course"
+                  >Curso</label
+                >
+                <input
+                  id="student-course"
+                  class="w-full rounded-2xl border border-primary-300/15 bg-surface-950 px-4 py-3 text-white outline-none transition focus:border-primary-300 focus:ring-2 focus:ring-primary-400/30"
+                  type="text"
+                  formControlName="curso"
+                  autocomplete="off"
+                  [attr.aria-invalid]="deveMostrarErro(formularioAluno.controls.curso)"
+                  aria-describedby="student-course-error"
+                />
+                @if (deveMostrarErro(formularioAluno.controls.curso)) {
+                  <p id="student-course-error" class="mt-2 text-sm text-red-300">
+                    Informe seu curso.
+                  </p>
+                }
+              </div>
+
+              <div>
+                <label class="mb-2 block text-sm font-medium text-slate-200" for="student-email"
+                  >Email</label
+                >
+                <input
+                  id="student-email"
+                  class="w-full rounded-2xl border border-primary-300/15 bg-surface-950 px-4 py-3 text-white outline-none transition focus:border-primary-300 focus:ring-2 focus:ring-primary-400/30"
+                  type="email"
+                  formControlName="email"
+                  autocomplete="email"
+                  [attr.aria-invalid]="deveMostrarErro(formularioAluno.controls.email)"
+                  aria-describedby="student-email-error"
+                />
+                @if (deveMostrarErro(formularioAluno.controls.email)) {
+                  <p id="student-email-error" class="mt-2 text-sm text-red-300">
+                    Informe um email válido.
+                  </p>
+                }
+              </div>
+
+              <div>
+                <label class="mb-2 block text-sm font-medium text-slate-200" for="student-senha"
+                  >Senha</label
+                >
+                <input
+                  id="student-senha"
+                  class="w-full rounded-2xl border border-primary-300/15 bg-surface-950 px-4 py-3 text-white outline-none transition focus:border-primary-300 focus:ring-2 focus:ring-primary-400/30"
+                  type="password"
+                  formControlName="senha"
+                  autocomplete="new-password"
+                  [attr.aria-invalid]="deveMostrarErro(formularioAluno.controls.senha)"
+                  aria-describedby="student-senha-error"
+                />
+                @if (deveMostrarErro(formularioAluno.controls.senha)) {
+                  <p id="student-senha-error" class="mt-2 text-sm text-red-300">
+                    A senha deve ter pelo menos 6 caracteres.
+                  </p>
+                }
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              class="w-full rounded-full bg-primary-500 px-6 py-3 font-semibold text-white shadow-lg shadow-primary-500/25 transition hover:bg-primary-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-300 focus-visible:ring-offset-2 focus-visible:ring-offset-night-950 disabled:cursor-not-allowed disabled:opacity-50"
+              [disabled]="formularioAluno.invalid"
+            >
+              Criar cadastro de aluno
+            </button>
+          </form>
+        }
+
+        @case ('cadastro-empresa') {
+          <form
+            class="space-y-6"
+            [formGroup]="formularioEmpresa"
+            (ngSubmit)="enviarCadastroEmpresa()"
+            novalidate
+          >
+            <div>
+              <label class="mb-2 block text-sm font-medium text-slate-200" for="company-name"
+                >Nome da empresa</label
+              >
+              <input
+                id="company-name"
+                class="w-full rounded-2xl border border-primary-300/15 bg-surface-950 px-4 py-3 text-white outline-none transition focus:border-primary-300 focus:ring-2 focus:ring-primary-400/30"
+                type="text"
+                formControlName="nome"
+                autocomplete="organization"
+                [attr.aria-invalid]="deveMostrarErro(formularioEmpresa.controls.nome)"
+                aria-describedby="company-name-error"
+              />
+              @if (deveMostrarErro(formularioEmpresa.controls.nome)) {
+                <p id="company-name-error" class="mt-2 text-sm text-red-300">
+                  Informe o nome da empresa.
+                </p>
+              }
+            </div>
+
+            <div>
+              <label class="mb-2 block text-sm font-medium text-slate-200" for="company-email"
+                >Email</label
+              >
+              <input
+                id="company-email"
+                class="w-full rounded-2xl border border-primary-300/15 bg-surface-950 px-4 py-3 text-white outline-none transition focus:border-primary-300 focus:ring-2 focus:ring-primary-400/30"
+                type="email"
+                formControlName="email"
+                autocomplete="email"
+                [attr.aria-invalid]="deveMostrarErro(formularioEmpresa.controls.email)"
+                aria-describedby="company-email-error"
+              />
+              @if (deveMostrarErro(formularioEmpresa.controls.email)) {
+                <p id="company-email-error" class="mt-2 text-sm text-red-300">
+                  Informe um email válido.
+                </p>
+              }
+            </div>
+
+            <div>
+              <label class="mb-2 block text-sm font-medium text-slate-200" for="company-senha"
+                >Senha</label
+              >
+              <input
+                id="company-senha"
+                class="w-full rounded-2xl border border-primary-300/15 bg-surface-950 px-4 py-3 text-white outline-none transition focus:border-primary-300 focus:ring-2 focus:ring-primary-400/30"
+                type="password"
+                formControlName="senha"
+                autocomplete="new-password"
+                [attr.aria-invalid]="deveMostrarErro(formularioEmpresa.controls.senha)"
+                aria-describedby="company-senha-error"
+              />
+              @if (deveMostrarErro(formularioEmpresa.controls.senha)) {
+                <p id="company-senha-error" class="mt-2 text-sm text-red-300">
+                  A senha deve ter pelo menos 6 caracteres.
+                </p>
+              }
+            </div>
+
+            <button
+              type="submit"
+              class="w-full rounded-full bg-primary-500 px-6 py-3 font-semibold text-white shadow-lg shadow-primary-500/25 transition hover:bg-primary-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-300 focus-visible:ring-offset-2 focus-visible:ring-offset-night-950 disabled:cursor-not-allowed disabled:opacity-50"
+              [disabled]="formularioEmpresa.invalid"
+            >
+              Criar cadastro de empresa
+            </button>
+          </form>
+        }
+
+        @default {
+          <form class="space-y-6" [formGroup]="formularioLogin" (ngSubmit)="enviarLogin()" novalidate>
+            <div>
+              <label class="mb-2 block text-sm font-medium text-slate-200" for="login-email"
+                >Email</label
+              >
+              <input
+                id="login-email"
+                class="w-full rounded-2xl border border-primary-300/15 bg-surface-950 px-4 py-3 text-white outline-none transition focus:border-primary-300 focus:ring-2 focus:ring-primary-400/30"
+                type="email"
+                formControlName="email"
+                autocomplete="email"
+                [attr.aria-invalid]="deveMostrarErro(formularioLogin.controls.email)"
+                aria-describedby="login-email-error"
+              />
+              @if (deveMostrarErro(formularioLogin.controls.email)) {
+                <p id="login-email-error" class="mt-2 text-sm text-red-300">
+                  Informe um email válido.
+                </p>
+              }
+            </div>
+
+            <div>
+              <label class="mb-2 block text-sm font-medium text-slate-200" for="login-senha"
+                >Senha</label
+              >
+              <input
+                id="login-senha"
+                class="w-full rounded-2xl border border-primary-300/15 bg-surface-950 px-4 py-3 text-white outline-none transition focus:border-primary-300 focus:ring-2 focus:ring-primary-400/30"
+                type="password"
+                formControlName="senha"
+                autocomplete="current-password"
+                [attr.aria-invalid]="deveMostrarErro(formularioLogin.controls.senha)"
+                aria-describedby="login-senha-error"
+              />
+              @if (deveMostrarErro(formularioLogin.controls.senha)) {
+                <p id="login-senha-error" class="mt-2 text-sm text-red-300">
+                  A senha deve ter pelo menos 6 caracteres.
+                </p>
+              }
+            </div>
+
+            <button
+              type="submit"
+              class="w-full rounded-full bg-primary-500 px-6 py-3 font-semibold text-white shadow-lg shadow-primary-500/25 transition hover:bg-primary-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-300 focus-visible:ring-offset-2 focus-visible:ring-offset-night-950 disabled:cursor-not-allowed disabled:opacity-50"
+              [disabled]="formularioLogin.invalid"
+            >
+              Entrar
+            </button>
+          </form>
+        }
+      }
+    </section>
+  </section>
+</main>

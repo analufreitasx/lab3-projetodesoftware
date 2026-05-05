@@ -1,0 +1,46 @@
+:host {
+  display: block;
+}
+
+.painel-autenticacao {
+  animation: painel-autenticacao-in 180ms ease-out;
+  scrollbar-width: thin;
+  scrollbar-color: rgb(85 212 230 / 45%) transparent;
+}
+
+.painel-autenticacao::-webkit-scrollbar {
+  width: 0.5rem;
+}
+
+.painel-autenticacao::-webkit-scrollbar-thumb {
+  background: rgb(85 212 230 / 45%);
+  border-radius: 999px;
+}
+
+.menu-cadastro {
+  animation: menu-cadastro-in 140ms ease-out;
+}
+
+@keyframes painel-autenticacao-in {
+  from {
+    opacity: 0.85;
+    transform: translateY(0.35rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes menu-cadastro-in {
+  from {
+    opacity: 0;
+    transform: translateY(-0.25rem) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}

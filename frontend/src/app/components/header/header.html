@@ -1,0 +1,37 @@
+<header class="border-b border-primary-400/15 bg-night-950/80 shadow-lg shadow-primary-950/20 backdrop-blur-xl">
+  <nav
+    class="mx-auto flex w-full max-w-7xl items-center justify-between px-5 py-4 sm:px-8"
+    aria-label="Navegação principal"
+  >
+    <a class="group inline-flex items-center gap-3 rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-300 focus-visible:ring-offset-2 focus-visible:ring-offset-night-950" href="/" aria-label="Ir para a página inicial">
+      <span class="flex h-10 w-10 items-center justify-center rounded-2xl border border-primary-300/30 bg-primary-500/15 text-sm font-bold text-primary-100 shadow-inner shadow-primary-100/10">
+        ME
+      </span>
+      <span class="leading-tight">
+        <span class="block text-base font-semibold tracking-tight text-white sm:text-lg">Moeda Estudantil</span>
+        <span class="hidden text-xs text-primary-100/70 sm:block">mérito que vira oportunidade</span>
+      </span>
+    </a>
+
+    <button
+      type="button"
+      class="inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-300 focus-visible:ring-offset-2 focus-visible:ring-offset-night-950"
+      [class.border]="actionVariant() === 'outline'"
+      [class.border-primary-300/50]="actionVariant() === 'outline'"
+      [class.bg-transparent]="actionVariant() === 'outline'"
+      [class.text-primary-100]="actionVariant() === 'outline'"
+      [class.hover:bg-primary-400/10]="actionVariant() === 'outline'"
+      [class.bg-primary-500]="actionVariant() === 'solid'"
+      [class.text-white]="actionVariant() === 'solid'"
+      [class.shadow-lg]="actionVariant() === 'solid'"
+      [class.shadow-primary-500/25]="actionVariant() === 'solid'"
+      [class.hover:bg-primary-400]="actionVariant() === 'solid'"
+      (click)="onActionClick()"
+    >
+      @if (actionVariant() === 'outline') {
+        <span aria-hidden="true">←</span>
+      }
+      {{ actionLabel() }}
+    </button>
+  </nav>
+</header>

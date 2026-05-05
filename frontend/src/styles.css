@@ -1,3 +1,74 @@
-/* You can add global styles to this file, and also import other style files */
-
 @import 'tailwindcss';
+
+@theme {
+  --color-primary-50: #e8fbff;
+  --color-primary-100: #c9f4fb;
+  --color-primary-200: #96e8f4;
+  --color-primary-300: #55d4e6;
+  --color-primary-400: #1db7d0;
+  --color-primary-500: #0083a2;
+  --color-primary-600: #00718e;
+  --color-primary-700: #075c73;
+  --color-primary-800: #0b4b5e;
+  --color-primary-900: #0d3f50;
+  --color-primary-950: #042936;
+
+  --color-night-900: #071924;
+  --color-night-950: #031017;
+  --color-surface-800: #123243;
+  --color-surface-900: #0b2431;
+  --color-surface-950: #061821;
+}
+
+:root {
+  color-scheme: dark;
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    sans-serif;
+  background: #031017;
+  color: #f8fafc;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  background:
+    radial-gradient(circle at top left, rgb(0 131 162 / 24%), transparent 34rem),
+    radial-gradient(circle at top right, rgb(85 212 230 / 12%), transparent 28rem),
+    #031017;
+  color: #f8fafc;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+::selection {
+  background: rgb(85 212 230 / 35%);
+  color: #ffffff;
+}
