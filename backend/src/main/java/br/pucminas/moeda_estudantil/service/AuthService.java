@@ -27,6 +27,7 @@ public class AuthService {
 
     public LoginResponse login(LoginRequest request) {
         Usuario usuario = usuarioRepository.findByLogin(request.login())
+                .or(() -> usuarioRepository.findByEmail(request.login()))
                 .orElseThrow(() -> new BadCredentialsException("Login ou senha invalidos"));
 
         if (!passwordEncoder.matches(request.senha(), usuario.getSenha())) {
