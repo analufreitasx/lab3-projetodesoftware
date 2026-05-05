@@ -12,3 +12,10 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.SQLServerDialect
+
+app:
+  security:
+    jwt:
+      issuer: moeda-estudantil
+      expiration-seconds: 3600
+      secret: ${JWT_SECRET:jwtsecretasdasdasdsd}
