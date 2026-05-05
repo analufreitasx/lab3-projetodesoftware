@@ -394,10 +394,18 @@
             <button
               type="submit"
               class="w-full rounded-full bg-primary-500 px-6 py-3 font-semibold text-white shadow-lg shadow-primary-500/25 transition hover:bg-primary-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-300 focus-visible:ring-offset-2 focus-visible:ring-offset-night-950 disabled:cursor-not-allowed disabled:opacity-50"
-              [disabled]="formularioLogin.invalid"
+              [disabled]="formularioLogin.invalid || loginCarregando()"
             >
-              Entrar
+              {{ loginCarregando() ? 'Entrando...' : 'Entrar' }}
             </button>
+
+            @if (loginErro()) {
+              <p class="text-sm text-red-300" role="alert">{{ loginErro() }}</p>
+            }
+
+            @if (loginSucesso()) {
+              <p class="text-sm text-green-300" role="status">{{ loginSucesso() }}</p>
+            }
           </form>
         }
       }

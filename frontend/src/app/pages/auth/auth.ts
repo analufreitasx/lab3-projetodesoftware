@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { HttpErrorResponse } from '@angular/common/http';
 
 import { ModoAutenticacao } from '../../models/auth.models';
 import { AuthService } from '../../services/auth.service';
@@ -17,6 +18,9 @@ export class AuthPage {
   protected readonly modoAtual = signal<ModoAutenticacao>('login');
   protected readonly formularioEnviado = signal(false);
   protected readonly menuCadastroAberto = signal(false);
+  protected readonly loginCarregando = signal(false);
+  protected readonly loginErro = signal<string | null>(null);
+  protected readonly loginSucesso = signal<string | null>(null);
 
   protected readonly estaEmModoCadastro = computed(() => this.modoAtual() !== 'login');
 
@@ -100,13 +104,29 @@ export class AuthPage {
 
   protected enviarLogin(): void {
     this.formularioEnviado.set(true);
+    this.loginErro.set(null);
+    this.loginSucesso.set(null);
 
     if (this.formularioLogin.invalid) {
       this.formularioLogin.markAllAsTouched();
       return;
     }
 
-    this.authService.fazerLogin(this.formularioLogin.getRawValue());
+    this.loginCarregando.set(true);
+    this.authService.fazerLogin(this.formularioLogin.getRawValue()).subscribe({
+      next: (resposta) => {
+        this.loginCarregando.set(false);
+        this.loginSucesso.set(`Login realizado com sucesso (${resposta.perfil}).`);
+      },
+      error: (erro: HttpErrorResponse) => {
+        this.loginCarregando.set(false);
+        if (erro.status === 401) {
+          this.loginErro.set('Credenciais inválidas. Verifique email e senha.');
+          return;
+        }
+        this.loginErro.set('Não foi possível entrar agora. Tente novamente.');
+      },
+    });
   }
 
   protected enviarCadastroAluno(): void {

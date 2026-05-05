@@ -21,3 +21,10 @@ export interface DadosCadastroEmpresa {
   email: string;
   senha: string;
 }
+
+export interface LoginResponse {
+  tokenType: string;
+  accessToken: string;
+  expiresIn: number;
+  perfil: string;
+}
