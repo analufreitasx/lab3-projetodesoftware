@@ -40,6 +40,7 @@ export class AuthService {
       rg: dadosCadastroAluno.rg,
       curso: dadosCadastroAluno.curso,
       instituicao: dadosCadastroAluno.instituicao,
+      endereco: dadosCadastroAluno.endereco,
     });
   }
 

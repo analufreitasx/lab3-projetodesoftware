@@ -11,6 +11,8 @@ public record AlunoResponse(
         String rg,
         String curso,
         String instituicao,
+        String endereco,
+        Double saldo,
         String perfil
 ) {
     public static AlunoResponse from(Aluno aluno) {
@@ -23,6 +25,8 @@ public record AlunoResponse(
                 aluno.getRg(),
                 aluno.getCurso(),
                 aluno.getInstituicao(),
+                aluno.getEndereco(),
+                aluno.getSaldo(),
                 aluno.getPerfil().name()
         );
     }

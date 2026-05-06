@@ -32,5 +32,8 @@ public record CriarAlunoRequest(
         String curso,
 
         @NotBlank(message = "A instituição é obrigatória")
-        String instituicao
+        String instituicao,
+
+        @NotBlank(message = "O endereço é obrigatório")
+        String endereco
 ) {}

@@ -19,4 +19,6 @@ public class Aluno extends Usuario {
 
     private String curso;
     private String instituicao;
+    private String endereco;
+    private Double saldo = 0.0;
 }
