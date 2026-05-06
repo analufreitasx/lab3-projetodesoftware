@@ -131,13 +131,29 @@ export class AuthPage {
 
   protected enviarCadastroAluno(): void {
     this.formularioEnviado.set(true);
+    this.loginErro.set(null);
+    this.loginSucesso.set(null);
 
     if (this.formularioAluno.invalid) {
       this.formularioAluno.markAllAsTouched();
       return;
     }
 
-    this.authService.cadastrarAluno(this.formularioAluno.getRawValue());
+    this.loginCarregando.set(true);
+    this.authService.cadastrarAluno(this.formularioAluno.getRawValue()).subscribe({
+      next: () => {
+        this.loginCarregando.set(false);
+        this.loginSucesso.set('Cadastro realizado com sucesso! Faça login para continuar.');
+        this.formularioAluno.reset();
+        this.modoAtual.set('login');
+      },
+      error: (erro: HttpErrorResponse) => {
+        this.loginCarregando.set(false);
+        this.loginErro.set(
+          erro?.error?.detail ?? 'Não foi possível realizar o cadastro. Tente novamente.',
+        );
+      },
+    });
   }
 
   protected enviarCadastroEmpresa(): void {

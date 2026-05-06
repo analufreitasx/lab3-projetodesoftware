@@ -12,13 +12,12 @@ import {
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private readonly apiUrl = `${API_BASE_URL}/auth`;
 
   constructor(private readonly httpClient: HttpClient) {}
 
   fazerLogin(dadosLogin: DadosLogin): Observable<LoginResponse> {
     return this.httpClient
-      .post<LoginResponse>(`${this.apiUrl}/login`, {
+      .post<LoginResponse>(`${API_BASE_URL}/auth/login`, {
         login: dadosLogin.email,
         senha: dadosLogin.senha,
       })
@@ -31,8 +30,17 @@ export class AuthService {
       );
   }
 
-  cadastrarAluno(dadosCadastroAluno: DadosCadastroAluno): void {
-    console.log(dadosCadastroAluno);
+  cadastrarAluno(dadosCadastroAluno: DadosCadastroAluno): Observable<unknown> {
+    return this.httpClient.post(`${API_BASE_URL}/alunos`, {
+      nome: dadosCadastroAluno.nome,
+      login: dadosCadastroAluno.email,
+      senha: dadosCadastroAluno.senha,
+      email: dadosCadastroAluno.email,
+      cpf: dadosCadastroAluno.cpf,
+      rg: dadosCadastroAluno.rg,
+      curso: dadosCadastroAluno.curso,
+      instituicao: dadosCadastroAluno.instituicao,
+    });
   }
 
   cadastrarEmpresa(dadosCadastroEmpresa: DadosCadastroEmpresa): void {
