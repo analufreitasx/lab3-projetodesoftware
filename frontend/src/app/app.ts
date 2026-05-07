@@ -16,7 +16,7 @@ export class App {
 
   protected readonly currentUrl = signal(this.router.url);
   protected readonly isAuthPage = computed(() => this.currentUrl().startsWith('/auth'));
-  protected readonly headerActionLabel = computed(() => (this.isAuthPage() ? 'Voltar' : 'Faça Login!'));
+  protected readonly headerActionLabel = computed(() => (this.isAuthPage() ? 'Voltar' : 'Faça Login'));
   protected readonly headerActionVariant = computed<HeaderActionVariant>(() =>
     this.isAuthPage() ? 'outline' : 'solid',
   );

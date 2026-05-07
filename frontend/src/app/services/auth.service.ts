@@ -44,7 +44,13 @@ export class AuthService {
     });
   }
 
-  cadastrarEmpresa(dadosCadastroEmpresa: DadosCadastroEmpresa): void {
-    console.log(dadosCadastroEmpresa);
+  cadastrarEmpresa(dadosCadastroEmpresa: DadosCadastroEmpresa): Observable<unknown> {
+    return this.httpClient.post(`${API_BASE_URL}/empresas`, {
+      nome: dadosCadastroEmpresa.nome,
+      login: dadosCadastroEmpresa.login,
+      senha: dadosCadastroEmpresa.senha,
+      email: dadosCadastroEmpresa.email,
+      cnpj: dadosCadastroEmpresa.cnpj,
+    });
   }
 }

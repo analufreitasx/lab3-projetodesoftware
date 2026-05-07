@@ -279,73 +279,123 @@
             (ngSubmit)="enviarCadastroEmpresa()"
             novalidate
           >
-            <div>
-              <label class="mb-2 block text-sm font-medium text-slate-200" for="company-name"
-                >Nome da empresa</label
-              >
-              <input
-                id="company-name"
-                class="w-full rounded-2xl border border-primary-300/15 bg-surface-950 px-4 py-3 text-white outline-none transition focus:border-primary-300 focus:ring-2 focus:ring-primary-400/30"
-                type="text"
-                formControlName="nome"
-                autocomplete="organization"
-                [attr.aria-invalid]="deveMostrarErro(formularioEmpresa.controls.nome)"
-                aria-describedby="company-name-error"
-              />
-              @if (deveMostrarErro(formularioEmpresa.controls.nome)) {
-                <p id="company-name-error" class="mt-2 text-sm text-red-300">
-                  Informe o nome da empresa.
-                </p>
-              }
-            </div>
+            <div class="grid gap-5 sm:grid-cols-2">
+              <div class="sm:col-span-2">
+                <label class="mb-2 block text-sm font-medium text-slate-200" for="company-name"
+                  >Nome da empresa</label
+                >
+                <input
+                  id="company-name"
+                  class="w-full rounded-2xl border border-primary-300/15 bg-surface-950 px-4 py-3 text-white outline-none transition focus:border-primary-300 focus:ring-2 focus:ring-primary-400/30"
+                  type="text"
+                  formControlName="nome"
+                  autocomplete="organization"
+                  [attr.aria-invalid]="deveMostrarErro(formularioEmpresa.controls.nome)"
+                  aria-describedby="company-name-error"
+                />
+                @if (deveMostrarErro(formularioEmpresa.controls.nome)) {
+                  <p id="company-name-error" class="mt-2 text-sm text-red-300">
+                    Informe o nome da empresa.
+                  </p>
+                }
+              </div>
 
-            <div>
-              <label class="mb-2 block text-sm font-medium text-slate-200" for="company-email"
-                >Email</label
-              >
-              <input
-                id="company-email"
-                class="w-full rounded-2xl border border-primary-300/15 bg-surface-950 px-4 py-3 text-white outline-none transition focus:border-primary-300 focus:ring-2 focus:ring-primary-400/30"
-                type="email"
-                formControlName="email"
-                autocomplete="email"
-                [attr.aria-invalid]="deveMostrarErro(formularioEmpresa.controls.email)"
-                aria-describedby="company-email-error"
-              />
-              @if (deveMostrarErro(formularioEmpresa.controls.email)) {
-                <p id="company-email-error" class="mt-2 text-sm text-red-300">
-                  Informe um email válido.
-                </p>
-              }
-            </div>
+              <div>
+                <label class="mb-2 block text-sm font-medium text-slate-200" for="company-login"
+                  >Login</label
+                >
+                <input
+                  id="company-login"
+                  class="w-full rounded-2xl border border-primary-300/15 bg-surface-950 px-4 py-3 text-white outline-none transition focus:border-primary-300 focus:ring-2 focus:ring-primary-400/30"
+                  type="text"
+                  formControlName="login"
+                  autocomplete="username"
+                  [attr.aria-invalid]="deveMostrarErro(formularioEmpresa.controls.login)"
+                  aria-describedby="company-login-error"
+                />
+                @if (deveMostrarErro(formularioEmpresa.controls.login)) {
+                  <p id="company-login-error" class="mt-2 text-sm text-red-300">
+                    Informe um login (3 a 50 caracteres).
+                  </p>
+                }
+              </div>
 
-            <div>
-              <label class="mb-2 block text-sm font-medium text-slate-200" for="company-senha"
-                >Senha</label
-              >
-              <input
-                id="company-senha"
-                class="w-full rounded-2xl border border-primary-300/15 bg-surface-950 px-4 py-3 text-white outline-none transition focus:border-primary-300 focus:ring-2 focus:ring-primary-400/30"
-                type="password"
-                formControlName="senha"
-                autocomplete="new-password"
-                [attr.aria-invalid]="deveMostrarErro(formularioEmpresa.controls.senha)"
-                aria-describedby="company-senha-error"
-              />
-              @if (deveMostrarErro(formularioEmpresa.controls.senha)) {
-                <p id="company-senha-error" class="mt-2 text-sm text-red-300">
-                  A senha deve ter pelo menos 6 caracteres.
-                </p>
-              }
+              <div>
+                <label class="mb-2 block text-sm font-medium text-slate-200" for="company-cnpj"
+                  >CNPJ</label
+                >
+                <input
+                  id="company-cnpj"
+                  class="w-full rounded-2xl border border-primary-300/15 bg-surface-950 px-4 py-3 text-white outline-none transition focus:border-primary-300 focus:ring-2 focus:ring-primary-400/30"
+                  type="text"
+                  formControlName="cnpj"
+                  autocomplete="off"
+                  [attr.aria-invalid]="deveMostrarErro(formularioEmpresa.controls.cnpj)"
+                  aria-describedby="company-cnpj-error"
+                />
+                @if (deveMostrarErro(formularioEmpresa.controls.cnpj)) {
+                  <p id="company-cnpj-error" class="mt-2 text-sm text-red-300">
+                    Informe um CNPJ válido.
+                  </p>
+                }
+              </div>
+
+              <div>
+                <label class="mb-2 block text-sm font-medium text-slate-200" for="company-email"
+                  >Email</label
+                >
+                <input
+                  id="company-email"
+                  class="w-full rounded-2xl border border-primary-300/15 bg-surface-950 px-4 py-3 text-white outline-none transition focus:border-primary-300 focus:ring-2 focus:ring-primary-400/30"
+                  type="email"
+                  formControlName="email"
+                  autocomplete="email"
+                  [attr.aria-invalid]="deveMostrarErro(formularioEmpresa.controls.email)"
+                  aria-describedby="company-email-error"
+                />
+                @if (deveMostrarErro(formularioEmpresa.controls.email)) {
+                  <p id="company-email-error" class="mt-2 text-sm text-red-300">
+                    Informe um email válido.
+                  </p>
+                }
+              </div>
+
+              <div>
+                <label class="mb-2 block text-sm font-medium text-slate-200" for="company-senha"
+                  >Senha</label
+                >
+                <input
+                  id="company-senha"
+                  class="w-full rounded-2xl border border-primary-300/15 bg-surface-950 px-4 py-3 text-white outline-none transition focus:border-primary-300 focus:ring-2 focus:ring-primary-400/30"
+                  type="password"
+                  formControlName="senha"
+                  autocomplete="new-password"
+                  [attr.aria-invalid]="deveMostrarErro(formularioEmpresa.controls.senha)"
+                  aria-describedby="company-senha-error"
+                />
+                @if (deveMostrarErro(formularioEmpresa.controls.senha)) {
+                  <p id="company-senha-error" class="mt-2 text-sm text-red-300">
+                    A senha deve ter pelo menos 6 caracteres.
+                  </p>
+                }
+              </div>
             </div>
 
             <button
               type="submit"
               class="w-full rounded-full bg-primary-500 px-6 py-3 font-semibold text-white shadow-lg shadow-primary-500/25 transition hover:bg-primary-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-300 focus-visible:ring-offset-2 focus-visible:ring-offset-night-950 disabled:cursor-not-allowed disabled:opacity-50"
-              [disabled]="formularioEmpresa.invalid"
+              [disabled]="formularioEmpresa.invalid || loginCarregando()"
             >
-              Criar cadastro de empresa
+              {{ loginCarregando() ? 'Cadastrando...' : 'Criar cadastro de empresa' }}
             </button>
+
+            @if (loginErro()) {
+              <p class="text-sm text-red-300" role="alert">{{ loginErro() }}</p>
+            }
+
+            @if (loginSucesso()) {
+              <p class="text-sm text-green-300" role="status">{{ loginSucesso() }}</p>
+            }
           </form>
         }
 

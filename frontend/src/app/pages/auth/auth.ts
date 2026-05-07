@@ -76,6 +76,10 @@ export class AuthPage {
 
   protected readonly formularioEmpresa = new FormGroup({
     nome: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
+    login: new FormControl('', {
+      nonNullable: true,
+      validators: [Validators.required, Validators.minLength(3), Validators.maxLength(50)],
+    }),
     email: new FormControl('', {
       nonNullable: true,
       validators: [Validators.required, Validators.email],
@@ -83,6 +87,10 @@ export class AuthPage {
     senha: new FormControl('', {
       nonNullable: true,
       validators: [Validators.required, Validators.minLength(6)],
+    }),
+    cnpj: new FormControl('', {
+      nonNullable: true,
+      validators: [Validators.required, Validators.minLength(14), Validators.maxLength(18)],
     }),
   });
 
@@ -158,13 +166,29 @@ export class AuthPage {
 
   protected enviarCadastroEmpresa(): void {
     this.formularioEnviado.set(true);
+    this.loginErro.set(null);
+    this.loginSucesso.set(null);
 
     if (this.formularioEmpresa.invalid) {
       this.formularioEmpresa.markAllAsTouched();
       return;
     }
 
-    this.authService.cadastrarEmpresa(this.formularioEmpresa.getRawValue());
+    this.loginCarregando.set(true);
+    this.authService.cadastrarEmpresa(this.formularioEmpresa.getRawValue()).subscribe({
+      next: () => {
+        this.loginCarregando.set(false);
+        this.loginSucesso.set('Cadastro realizado com sucesso! Faça login para continuar.');
+        this.formularioEmpresa.reset();
+        this.modoAtual.set('login');
+      },
+      error: (erro: HttpErrorResponse) => {
+        this.loginCarregando.set(false);
+        this.loginErro.set(
+          erro?.error?.detail ?? 'Não foi possível realizar o cadastro. Tente novamente.',
+        );
+      },
+    });
   }
 
   protected deveMostrarErro(controle: FormControl<string>): boolean {

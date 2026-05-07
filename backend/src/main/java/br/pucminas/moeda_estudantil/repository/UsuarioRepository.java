@@ -2,7 +2,6 @@ package br.pucminas.moeda_estudantil.repository;
 
 import br.pucminas.moeda_estudantil.model.Usuario;
 
-import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 

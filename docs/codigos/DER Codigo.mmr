@@ -9,43 +9,41 @@ config:
 ---
 erDiagram
 	direction TB
+	USUARIOS {
+		int id PK ""
+		string login ""
+		string senha ""
+		string nome ""
+		string email ""
+		string perfil ""
+	}
+
 	INSTITUICOES {
-		int id PK ""  
-		string nome  ""  
-		string endereco  ""  
-		string email  ""  
-		string telefone  ""  
+		int id PK ""
+		string nome  ""
+		string endereco  ""
+		string email  ""
+		string telefone  ""
 	}
 
 	ALUNOS {
-		int id PK ""  
-		string nome  ""  
-		string email  ""  
-		string cpf  ""  
-		string rg  ""  
-		string endereco  ""  
-		int curso_id FK ""  
-		string senha  ""  
-		float saldo  ""  
-		int instituicao_id FK ""  
+		int id PK ""
+		string cpf  ""
+		string rg  ""
+		string endereco  ""
+		string curso  ""
+		string instituicao  ""
+		float saldo  ""
 	}
 
 	PROFESSORES {
-		int id PK ""  
-		string nome  ""  
-		string cpf  ""  
-		string departamento  ""  
-		string email  ""  
-		string senha  ""  
-		float saldo  ""  
-		int instituicao_id FK ""  
+		int id PK ""
+		string departamento  ""
 	}
 
 	EMPRESAS_PARCEIRAS {
-		int id PK ""  
-		string nome  ""  
-		string email  "" 
-		string senha  ""  
+		int id PK ""
+		string cnpj  ""
 	}
 
 	VANTAGENS {
@@ -87,6 +85,9 @@ erDiagram
 		datetime data  ""  
 	}
 
+	USUARIOS ||--|| ALUNOS:"herda"
+	USUARIOS ||--|| PROFESSORES:"herda"
+	USUARIOS ||--|| EMPRESAS_PARCEIRAS:"herda"
 	INSTITUICOES||--o{ALUNOS:"matricula"
 	INSTITUICOES||--o{PROFESSORES:"emprega"
 	INSTITUICOES||--o{CURSOS:"registra"
