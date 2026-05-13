@@ -1,6 +1,6 @@
 
 
-# 🏷️ Sistema de Moeda Estudantil 👨‍💻
+# 🏷️ Karv Coins: Sistema de Reconhecimento de Mérito Acadêmico 👨‍💻
 
 ## 🚧 Status do Projeto
 
