@@ -1,6 +1,6 @@
 
 
-# 🏷️ Karv Coins: Sistema de Reconhecimento de Mérito Acadêmico 👨‍💻
+# 🏷️ Karv Coins: Sistema de Mérito Acadêmico 👨‍💻
 
 ## 🚧 Status do Projeto
 
