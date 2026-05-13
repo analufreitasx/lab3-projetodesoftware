@@ -2,7 +2,7 @@
   <section class="mx-auto w-full max-w-7xl" aria-labelledby="empresa-home-title">
     <div class="rounded-[2rem] border border-primary-300/15 bg-surface-900/75 p-7 shadow-2xl shadow-primary-950/25 sm:p-10">
       <p class="text-sm font-semibold uppercase tracking-[0.25em] text-primary-200">Empresa parceira</p>
-      <h1 id="empresa-home-title" class="mt-4 text-4xl font-bold tracking-tight text-white sm:text-5xl">
+      <h1 id="empresa-home-title" class="font-brand mt-4 text-4xl font-bold tracking-tight text-white sm:text-5xl">
         Benefícios mais vendidos
       </h1>
       <p class="mt-4 max-w-3xl text-base leading-7 text-slate-300">
@@ -18,7 +18,7 @@
       <div class="divide-y divide-primary-300/10">
         @for (beneficio of beneficiosMaisVendidos; track beneficio.id) {
           <article class="grid gap-3 px-6 py-5 md:grid-cols-[1fr_10rem] md:items-center">
-            <h2 class="text-lg font-semibold text-white">{{ beneficio.nome }}</h2>
+            <h2 class="font-brand text-lg font-bold text-white">{{ beneficio.nome }}</h2>
             <p class="text-sm text-slate-300">{{ beneficio.resgates }} resgates</p>
           </article>
         }

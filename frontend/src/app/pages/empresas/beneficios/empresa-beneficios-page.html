@@ -1,14 +1,14 @@
 <main class="px-5 py-10 sm:px-8 lg:py-14">
   <section class="mx-auto w-full max-w-6xl" aria-labelledby="empresa-beneficios-title">
     <p class="text-sm font-semibold uppercase tracking-[0.25em] text-primary-200">Gerenciar benefícios</p>
-    <h1 id="empresa-beneficios-title" class="mt-4 text-4xl font-bold tracking-tight text-white sm:text-5xl">
+    <h1 id="empresa-beneficios-title" class="font-brand mt-4 text-4xl font-bold tracking-tight text-white sm:text-5xl">
       Benefícios publicados
     </h1>
 
     <div class="mt-8 grid gap-5 md:grid-cols-3">
       @for (beneficio of beneficiosGerenciados; track beneficio.id) {
         <article class="rounded-3xl border border-primary-300/15 bg-surface-900/75 p-6 shadow-xl shadow-primary-950/20">
-          <h2 class="text-xl font-semibold text-white">{{ beneficio.nome }}</h2>
+          <h2 class="font-brand text-xl font-bold text-white">{{ beneficio.nome }}</h2>
           <dl class="mt-5 space-y-3 text-sm">
             <div class="flex items-center justify-between gap-4">
               <dt class="text-slate-400">Resgates</dt>
