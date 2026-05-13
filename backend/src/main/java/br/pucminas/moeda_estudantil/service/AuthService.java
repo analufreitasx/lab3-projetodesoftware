@@ -26,12 +26,11 @@ public class AuthService {
     }
 
     public LoginResponse login(LoginRequest request) {
-        Usuario usuario = usuarioRepository.findByLogin(request.login())
-                .or(() -> usuarioRepository.findByEmail(request.login()))
-                .orElseThrow(() -> new BadCredentialsException("Login ou senha invalidos"));
+        Usuario usuario = usuarioRepository.findByEmail(request.email())
+                .orElseThrow(() -> new BadCredentialsException("E-mail ou senha invalidos"));
 
         if (!passwordEncoder.matches(request.senha(), usuario.getSenha())) {
-            throw new BadCredentialsException("Login ou senha invalidos");
+            throw new BadCredentialsException("E-mail ou senha invalidos");
         }
 
         String token = jwtTokenService.generateToken(usuario);

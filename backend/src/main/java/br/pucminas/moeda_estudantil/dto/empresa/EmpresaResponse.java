@@ -5,7 +5,6 @@ import br.pucminas.moeda_estudantil.model.Empresa;
 public record EmpresaResponse(
         Long id,
         String nome,
-        String login,
         String email,
         String cnpj,
         String perfil
@@ -14,7 +13,6 @@ public record EmpresaResponse(
         return new EmpresaResponse(
                 empresa.getId(),
                 empresa.getNome(),
-                empresa.getLogin(),
                 empresa.getEmail(),
                 empresa.getCnpj(),
                 empresa.getPerfil().name()

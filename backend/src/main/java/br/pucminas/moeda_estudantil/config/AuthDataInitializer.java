@@ -23,10 +23,9 @@ public class AuthDataInitializer {
     }
 
     private void ensureAluno(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
-        Usuario usuarioExistente = usuarioRepository.findByLogin("aluno").orElse(null);
+        Usuario usuarioExistente = usuarioRepository.findByEmail("aluno@moeda.local").orElse(null);
         if (usuarioExistente instanceof Aluno aluno) {
             aluno.setNome("Aluno Demo");
-            aluno.setEmail("aluno@moeda.local");
             aluno.setSenha(passwordEncoder.encode("123456"));
             aluno.setPerfil(PerfilUsuario.ALUNO);
             aluno.setCpf("00000000001");
@@ -38,7 +37,6 @@ public class AuthDataInitializer {
         }
 
         Aluno aluno = new Aluno();
-        aluno.setLogin("aluno");
         aluno.setNome("Aluno Demo");
         aluno.setEmail("aluno@moeda.local");
         aluno.setSenha(passwordEncoder.encode("123456"));
@@ -51,10 +49,9 @@ public class AuthDataInitializer {
     }
 
     private void ensureProfessor(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
-        Usuario usuarioExistente = usuarioRepository.findByLogin("professor").orElse(null);
+        Usuario usuarioExistente = usuarioRepository.findByEmail("professor@moeda.local").orElse(null);
         if (usuarioExistente instanceof Professor professor) {
             professor.setNome("Professor Demo");
-            professor.setEmail("professor@moeda.local");
             professor.setSenha(passwordEncoder.encode("123456"));
             professor.setPerfil(PerfilUsuario.PROFESSOR);
             professor.setDepartamento("Computacao");
@@ -63,7 +60,6 @@ public class AuthDataInitializer {
         }
 
         Professor professor = new Professor();
-        professor.setLogin("professor");
         professor.setNome("Professor Demo");
         professor.setEmail("professor@moeda.local");
         professor.setSenha(passwordEncoder.encode("123456"));
@@ -73,10 +69,9 @@ public class AuthDataInitializer {
     }
 
     private void ensureEmpresa(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
-        Usuario usuarioExistente = usuarioRepository.findByLogin("empresa").orElse(null);
+        Usuario usuarioExistente = usuarioRepository.findByEmail("empresa@moeda.local").orElse(null);
         if (usuarioExistente instanceof Empresa empresa) {
             empresa.setNome("Empresa Demo");
-            empresa.setEmail("empresa@moeda.local");
             empresa.setSenha(passwordEncoder.encode("123456"));
             empresa.setPerfil(PerfilUsuario.EMPRESA);
             empresa.setCnpj("00000000000100");
@@ -85,7 +80,6 @@ public class AuthDataInitializer {
         }
 
         Empresa empresa = new Empresa();
-        empresa.setLogin("empresa");
         empresa.setNome("Empresa Demo");
         empresa.setEmail("empresa@moeda.local");
         empresa.setSenha(passwordEncoder.encode("123456"));

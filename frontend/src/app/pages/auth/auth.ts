@@ -76,10 +76,6 @@ export class AuthPage {
 
   protected readonly formularioEmpresa = new FormGroup({
     nome: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
-    login: new FormControl('', {
-      nonNullable: true,
-      validators: [Validators.required, Validators.minLength(3), Validators.maxLength(50)],
-    }),
     email: new FormControl('', {
       nonNullable: true,
       validators: [Validators.required, Validators.email],

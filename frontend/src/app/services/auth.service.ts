@@ -18,7 +18,7 @@ export class AuthService {
   fazerLogin(dadosLogin: DadosLogin): Observable<LoginResponse> {
     return this.httpClient
       .post<LoginResponse>(`${API_BASE_URL}/auth/login`, {
-        login: dadosLogin.email,
+        email: dadosLogin.email,
         senha: dadosLogin.senha,
       })
       .pipe(
@@ -33,7 +33,6 @@ export class AuthService {
   cadastrarAluno(dadosCadastroAluno: DadosCadastroAluno): Observable<unknown> {
     return this.httpClient.post(`${API_BASE_URL}/alunos`, {
       nome: dadosCadastroAluno.nome,
-      login: dadosCadastroAluno.email,
       senha: dadosCadastroAluno.senha,
       email: dadosCadastroAluno.email,
       cpf: dadosCadastroAluno.cpf,
@@ -47,7 +46,6 @@ export class AuthService {
   cadastrarEmpresa(dadosCadastroEmpresa: DadosCadastroEmpresa): Observable<unknown> {
     return this.httpClient.post(`${API_BASE_URL}/empresas`, {
       nome: dadosCadastroEmpresa.nome,
-      login: dadosCadastroEmpresa.login,
       senha: dadosCadastroEmpresa.senha,
       email: dadosCadastroEmpresa.email,
       cnpj: dadosCadastroEmpresa.cnpj,

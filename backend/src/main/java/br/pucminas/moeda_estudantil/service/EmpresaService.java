@@ -35,16 +35,12 @@ public class EmpresaService {
         if (empresaRepository.existsByCnpj(request.cnpj())) {
             throw new IllegalArgumentException("Já existe uma empresa cadastrada com esse CNPJ.");
         }
-        if (usuarioRepository.existsByLogin(request.login())) {
-            throw new IllegalArgumentException("Esse login já está em uso.");
-        }
         if (usuarioRepository.existsByEmail(request.email())) {
             throw new IllegalArgumentException("Esse e-mail já está em uso por outro usuário.");
         }
 
         Empresa empresa = new Empresa();
         empresa.setNome(request.nome());
-        empresa.setLogin(request.login());
         empresa.setSenha(passwordEncoder.encode(request.senha()));
         empresa.setEmail(request.email());
         empresa.setCnpj(request.cnpj());

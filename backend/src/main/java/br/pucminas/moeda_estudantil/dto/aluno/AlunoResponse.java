@@ -5,7 +5,6 @@ import br.pucminas.moeda_estudantil.model.Aluno;
 public record AlunoResponse(
         Long id,
         String nome,
-        String login,
         String email,
         String cpf,
         String rg,
@@ -19,7 +18,6 @@ public record AlunoResponse(
         return new AlunoResponse(
                 aluno.getId(),
                 aluno.getNome(),
-                aluno.getLogin(),
                 aluno.getEmail(),
                 aluno.getCpf(),
                 aluno.getRg(),

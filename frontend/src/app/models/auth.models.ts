@@ -18,7 +18,6 @@ export interface DadosCadastroAluno {
 
 export interface DadosCadastroEmpresa {
   nome: string;
-  login: string;
   email: string;
   senha: string;
   cnpj: string;

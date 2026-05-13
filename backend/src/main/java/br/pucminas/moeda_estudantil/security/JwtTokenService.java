@@ -32,7 +32,7 @@ public class JwtTokenService {
                 .issuer(issuer)
                 .issuedAt(now)
                 .expiresAt(now.plusSeconds(expirationSeconds))
-                .subject(usuario.getLogin())
+                .subject(usuario.getEmail())
                 .claim("perfil", usuario.getPerfil().name())
                 .build();
 

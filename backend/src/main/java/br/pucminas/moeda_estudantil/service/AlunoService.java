@@ -40,16 +40,12 @@ public class AlunoService {
             throw new IllegalArgumentException("Já existe um aluno cadastrado com esse RG.");
         }
 
-        if (usuarioRepository.existsByLogin(request.login())) {
-            throw new IllegalArgumentException("Esse login já está em uso.");
-        }
         if (usuarioRepository.existsByEmail(request.email())) {
             throw new IllegalArgumentException("Esse e-mail já está em uso por outro usuário.");
         }
 
         Aluno aluno = new Aluno();
         aluno.setNome(request.nome());
-        aluno.setLogin(request.login());
         aluno.setSenha(passwordEncoder.encode(request.senha()));
         aluno.setEmail(request.email());
         aluno.setCpf(request.cpf());
