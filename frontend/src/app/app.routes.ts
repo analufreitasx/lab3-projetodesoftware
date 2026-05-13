@@ -7,32 +7,32 @@ import { ExtratoGuard } from './guards/extrato.guard';
 export const routes: Routes = [
   {
     path: '',
-    title: 'Moeda Estudantil',
+    title: 'KarvCoins',
     loadComponent: () =>
       import('./pages/landing-page/landing-page').then((component) => component.LandingPage),
   },
   {
     path: 'auth',
-    title: 'Entrar | Moeda Estudantil',
+    title: 'Entrar | KarvCoins',
     loadComponent: () => import('./pages/auth/auth').then((component) => component.AuthPage),
   },
   {
     path: 'home',
-    title: 'Home | Moeda Estudantil',
+    title: 'Home | KarvCoins',
     canActivate: [AutenticadoGuard],
     loadComponent: () =>
       import('./pages/home/home-page').then((component) => component.HomePage),
   },
   {
     path: 'extrato',
-    title: 'Extrato | Moeda Estudantil',
+    title: 'Extrato | KarvCoins',
     canActivate: [ExtratoGuard],
     loadComponent: () =>
       import('./pages/extrato/extrato-page').then((component) => component.ExtratoPage),
   },
   {
     path: 'beneficios',
-    title: 'Gerenciar Benefícios | Moeda Estudantil',
+    title: 'Gerenciar Benefícios | KarvCoins',
     canMatch: [EmpresaGuard],
     loadComponent: () =>
       import('./pages/empresas/beneficios/empresa-beneficios-page').then(

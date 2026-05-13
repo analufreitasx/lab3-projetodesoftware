@@ -1,6 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&display=swap');
 @import 'tailwindcss';
 
 @theme {
+  --font-brand: 'Libre Baskerville', Georgia, ui-serif, serif;
+
   --color-primary-50: #e8fbff;
   --color-primary-100: #c9f4fb;
   --color-primary-200: #96e8f4;

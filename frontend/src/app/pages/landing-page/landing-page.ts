@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { NgOptimizedImage } from '@angular/common';
 
 interface FeatureCard {
   title: string;
@@ -18,7 +19,7 @@ interface TeamMember {
 
 @Component({
   selector: 'app-landing-page',
-  imports: [],
+  imports: [NgOptimizedImage],
   templateUrl: './landing-page.html',
   styleUrl: './landing-page.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

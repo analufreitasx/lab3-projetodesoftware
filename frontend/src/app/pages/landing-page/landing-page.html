@@ -6,14 +6,9 @@
 
     <div class="mx-auto grid w-full max-w-7xl items-center gap-14 lg:grid-cols-[1.1fr_0.9fr]">
       <div>
-        <p
-          class="mb-5 inline-flex rounded-full border border-primary-300/20 bg-primary-400/10 px-4 py-2 text-sm font-medium text-primary-100"
-        >
-          Sistema de Mérito Estudantil
-        </p>
         <h1
           id="landing-title"
-          class="max-w-4xl text-5xl font-bold tracking-tight text-white sm:text-6xl lg:text-7xl"
+          class="font-brand max-w-4xl text-5xl font-bold leading-[1.18] tracking-tight text-white sm:text-6xl sm:leading-[1.16] lg:text-7xl lg:leading-[1.14]"
         >
           Reconheça conquistas acadêmicas com moedas virtuais.
         </h1>
@@ -46,9 +41,26 @@
         class="rounded-[2rem] border border-primary-200/20 bg-surface-900/80 p-6 shadow-2xl shadow-primary-950/40 backdrop-blur"
       >
         <div class="rounded-[1.5rem] border border-primary-300/15 bg-night-900 p-6">
-          <p class="text-sm font-medium uppercase tracking-[0.3em] text-primary-200">
-            Como funciona
-          </p>
+          <div class="flex items-center gap-4">
+            <span
+              class="flex h-16 w-16 items-center justify-center overflow-hidden rounded-3xl border border-primary-300/20 bg-primary-400/10 p-2 shadow-lg shadow-primary-950/30"
+            >
+              <img
+                ngSrc="/logo.png"
+                width="56"
+                height="56"
+                alt="Logo do KarvCoins"
+                priority
+                class="h-full w-full object-contain"
+              />
+            </span>
+            <div>
+              <p class="text-sm font-medium uppercase tracking-[0.3em] text-primary-200">
+                Como funciona
+              </p>
+              <p class="font-brand mt-1 text-2xl font-bold text-white">KarvCoins</p>
+            </div>
+          </div>
           <div class="mt-8 space-y-5">
             @for (step of steps; track step.step) {
               <article class="rounded-3xl border border-primary-300/10 bg-surface-800/70 p-5">
@@ -69,7 +81,10 @@
         <p class="text-sm font-semibold uppercase tracking-[0.25em] text-primary-200">
           Ecossistema
         </p>
-        <h2 id="roles-title" class="mt-4 text-3xl font-bold tracking-tight text-white sm:text-4xl">
+        <h2
+          id="roles-title"
+          class="font-brand mt-4 text-3xl font-bold tracking-tight text-white sm:text-4xl"
+        >
           Cada perfil participa de uma jornada simples e transparente.
         </h2>
       </div>
@@ -99,7 +114,10 @@
       <div class="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
         <div>
           <p class="text-sm font-semibold uppercase tracking-[0.25em] text-primary-200">Time</p>
-          <h2 id="team-title" class="mt-4 text-3xl font-bold tracking-tight text-white sm:text-4xl">
+          <h2
+            id="team-title"
+            class="font-brand mt-4 text-3xl font-bold tracking-tight text-white sm:text-4xl"
+          >
             Desenvolvimento do projeto
           </h2>
         </div>
