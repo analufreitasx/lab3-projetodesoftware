@@ -1,0 +1,107 @@
+<main class="px-5 py-10 sm:px-8 lg:py-14">
+  <section class="mx-auto w-full max-w-7xl" aria-labelledby="professor-home-title">
+    <div class="grid gap-6 lg:grid-cols-[0.85fr_1.15fr]">
+      <aside
+        class="rounded-[2rem] border border-primary-300/15 bg-surface-900/75 p-7 shadow-2xl shadow-primary-950/25 sm:p-10"
+      >
+        <p class="text-sm font-semibold uppercase tracking-[0.25em] text-primary-200">
+          Área do professor
+        </p>
+        <h1
+          id="professor-home-title"
+          class="mt-4 text-4xl font-bold tracking-tight text-white sm:text-5xl"
+        >
+          Distribuição de moedas
+        </h1>
+        <p class="mt-4 text-base leading-7 text-slate-300">
+          Visualize alunos relacionados à sua matéria, curso ou departamento e reconheça desempenho
+          acadêmico com moedas.
+        </p>
+        <dl class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
+          <div class="rounded-3xl border border-primary-300/15 bg-night-950/55 p-5">
+            <dt class="text-sm text-slate-400">Saldo disponível</dt>
+            <dd class="mt-2 text-3xl font-bold text-primary-100">{{ saldoProfessor() }} moedas</dd>
+          </div>
+          <div class="rounded-3xl border border-primary-300/15 bg-night-950/55 p-5">
+            <dt class="text-sm text-slate-400">Alunos relacionados</dt>
+            <dd class="mt-2 text-3xl font-bold text-primary-100">
+              {{ totalAlunosRelacionados() }}
+            </dd>
+          </div>
+        </dl>
+      </aside>
+
+      <div
+        class="rounded-[2rem] border border-primary-300/15 bg-night-900/80 p-5 shadow-2xl shadow-primary-950/25 sm:p-7"
+      >
+        @if (mensagemDistribuicao()) {
+          <p
+            class="mb-5 rounded-2xl border border-primary-300/20 bg-primary-500/10 px-4 py-3 text-sm font-medium text-primary-100"
+            role="status"
+          >
+            {{ mensagemDistribuicao() }}
+          </p>
+        }
+
+        <div class="mb-5">
+          <label class="sr-only" for="pesquisa-alunos">Pesquisar alunos</label>
+          <input
+            id="pesquisa-alunos"
+            class="w-full rounded-full border border-primary-300/15 bg-surface-950 px-5 py-3 text-sm text-white outline-none transition placeholder:text-slate-500 focus:border-primary-300 focus:ring-2 focus:ring-primary-400/30"
+            type="search"
+            placeholder="Pesquisar alunos por nome, curso ou turma"
+            autocomplete="off"
+          />
+        </div>
+
+        <div class="space-y-4">
+          @for (aluno of alunosRelacionados(); track aluno.id) {
+            <article class="rounded-3xl border border-primary-300/12 bg-surface-900/70 p-5">
+              <div class="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
+                <div>
+                  <h2 class="text-xl font-semibold text-white">{{ aluno.nome }}</h2>
+                  <p class="mt-1 text-sm text-slate-400">{{ aluno.curso }} · {{ aluno.turma }}</p>
+                  <p class="mt-3 text-sm font-medium text-primary-100">
+                    Saldo do aluno: {{ aluno.saldoMoedas }} moedas
+                  </p>
+                </div>
+                <div
+                  class="flex w-full flex-col gap-2 sm:w-44"
+                  aria-label="Distribuir moedas para {{ aluno.nome }}"
+                >
+                  <div>
+                    <label
+                      class="sr-only"
+                      [for]="'moedas-aluno-' + aluno.id"
+                    >
+                      Quantidade de moedas para {{ aluno.nome }}
+                    </label>
+                    <input
+                      class="w-full rounded-2xl border border-primary-300/15 bg-surface-950 px-4 py-2.5 text-white outline-none transition placeholder:text-slate-500 focus:border-primary-300 focus:ring-2 focus:ring-primary-400/30"
+                      type="number"
+                      min="1"
+                      step="1"
+                      inputmode="numeric"
+                      placeholder="Moedas"
+                      [id]="'moedas-aluno-' + aluno.id"
+                      [value]="obterQuantidadeMoedas(aluno.id) ?? ''"
+                      (input)="atualizarQuantidadeMoedas(aluno.id, $event)"
+                    />
+                  </div>
+                  <button
+                    type="button"
+                    class="w-full rounded-full bg-primary-500 px-3 py-2 text-xs font-semibold text-white transition hover:bg-primary-400 focus:outline-none focus-visible:ring-2 text-nowrap focus-visible:ring-primary-300 focus-visible:ring-offset-2 focus-visible:ring-offset-night-950 disabled:cursor-not-allowed disabled:bg-slate-600 disabled:text-slate-300"
+                    [disabled]="!podeDistribuirMoedas(aluno.id)"
+                    (click)="distribuirMoedasParaAluno(aluno.id, aluno.nome)"
+                  >
+                    Enviar moedas
+                  </button>
+                </div>
+              </div>
+            </article>
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+</main>

@@ -1,0 +1,28 @@
+<main class="px-5 py-10 sm:px-8 lg:py-14">
+  <section class="mx-auto w-full max-w-7xl" aria-labelledby="empresa-home-title">
+    <div class="rounded-[2rem] border border-primary-300/15 bg-surface-900/75 p-7 shadow-2xl shadow-primary-950/25 sm:p-10">
+      <p class="text-sm font-semibold uppercase tracking-[0.25em] text-primary-200">Empresa parceira</p>
+      <h1 id="empresa-home-title" class="mt-4 text-4xl font-bold tracking-tight text-white sm:text-5xl">
+        Benefícios mais vendidos
+      </h1>
+      <p class="mt-4 max-w-3xl text-base leading-7 text-slate-300">
+        Acompanhe quais benefícios geram mais resgates entre os alunos e use esses dados para planejar novas ofertas.
+      </p>
+    </div>
+
+    <div class="mt-8 overflow-hidden rounded-[2rem] border border-primary-300/15 bg-night-900/80 shadow-2xl shadow-primary-950/25">
+      <div class="grid gap-4 border-b border-primary-300/15 px-6 py-4 text-sm font-semibold uppercase tracking-[0.18em] text-primary-100 md:grid-cols-[1fr_10rem]">
+        <span>Benefício</span>
+        <span>Resgates</span>
+      </div>
+      <div class="divide-y divide-primary-300/10">
+        @for (beneficio of beneficiosMaisVendidos; track beneficio.id) {
+          <article class="grid gap-3 px-6 py-5 md:grid-cols-[1fr_10rem] md:items-center">
+            <h2 class="text-lg font-semibold text-white">{{ beneficio.nome }}</h2>
+            <p class="text-sm text-slate-300">{{ beneficio.resgates }} resgates</p>
+          </article>
+        }
+      </div>
+    </div>
+  </section>
+</main>

@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 import { ModoAutenticacao } from '../../models/auth.models';
 import { AuthService } from '../../services/auth.service';
@@ -14,6 +15,7 @@ import { AuthService } from '../../services/auth.service';
 })
 export class AuthPage {
   private readonly authService = inject(AuthService);
+  private readonly router = inject(Router);
 
   protected readonly modoAtual = signal<ModoAutenticacao>('login');
   protected readonly formularioEnviado = signal(false);
@@ -118,9 +120,9 @@ export class AuthPage {
 
     this.loginCarregando.set(true);
     this.authService.fazerLogin(this.formularioLogin.getRawValue()).subscribe({
-      next: (resposta) => {
+      next: () => {
         this.loginCarregando.set(false);
-        this.loginSucesso.set(`Login realizado com sucesso (${resposta.perfil}).`);
+        void this.router.navigateByUrl('/home', { replaceUrl: true });
       },
       error: (erro: HttpErrorResponse) => {
         this.loginCarregando.set(false);
@@ -149,6 +151,7 @@ export class AuthPage {
         this.loginCarregando.set(false);
         this.loginSucesso.set('Cadastro realizado com sucesso! Faça login para continuar.');
         this.formularioAluno.reset();
+        this.formularioEnviado.set(false);
         this.modoAtual.set('login');
       },
       error: (erro: HttpErrorResponse) => {
@@ -176,6 +179,7 @@ export class AuthPage {
         this.loginCarregando.set(false);
         this.loginSucesso.set('Cadastro realizado com sucesso! Faça login para continuar.');
         this.formularioEmpresa.reset();
+        this.formularioEnviado.set(false);
         this.modoAtual.set('login');
       },
       error: (erro: HttpErrorResponse) => {

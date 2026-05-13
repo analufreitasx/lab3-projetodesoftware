@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 
 import { API_BASE_URL } from '../config/api.config';
 import {
@@ -8,12 +8,18 @@ import {
   DadosCadastroEmpresa,
   DadosLogin,
   LoginResponse,
+  PerfilUsuario,
 } from '../models/auth.models';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
+  private readonly httpClient = inject(HttpClient);
+  private readonly tokenAcessoSignal = signal<string | null>(localStorage.getItem('access_token'));
+  private readonly perfilAtualSignal = signal<PerfilUsuario | null>(this.lerPerfilArmazenado());
 
-  constructor(private readonly httpClient: HttpClient) {}
+  readonly tokenAcesso = this.tokenAcessoSignal.asReadonly();
+  readonly perfilAtual = this.perfilAtualSignal.asReadonly();
+  readonly estaAutenticado = computed(() => Boolean(this.tokenAcesso() && this.perfilAtual()));
 
   fazerLogin(dadosLogin: DadosLogin): Observable<LoginResponse> {
     return this.httpClient
@@ -22,12 +28,39 @@ export class AuthService {
         senha: dadosLogin.senha,
       })
       .pipe(
+        map((resposta) => {
+          const perfilNormalizado = this.normalizarPerfil(resposta.perfil);
+
+          if (!perfilNormalizado) {
+            throw new Error('Perfil de usuário inválido.');
+          }
+
+          return { ...resposta, perfil: perfilNormalizado };
+        }),
         tap((resposta) => {
           localStorage.setItem('access_token', resposta.accessToken);
           localStorage.setItem('token_type', resposta.tokenType);
           localStorage.setItem('perfil', resposta.perfil);
+          this.tokenAcessoSignal.set(resposta.accessToken);
+          this.perfilAtualSignal.set(resposta.perfil);
         }),
       );
+  }
+
+  sair(): void {
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('token_type');
+    localStorage.removeItem('perfil');
+    this.tokenAcessoSignal.set(null);
+    this.perfilAtualSignal.set(null);
+  }
+
+  obterTokenAcesso(): string | null {
+    return this.tokenAcesso();
+  }
+
+  usuarioTemPerfil(perfil: PerfilUsuario): boolean {
+    return this.estaAutenticado() && this.perfilAtual() === perfil;
   }
 
   cadastrarAluno(dadosCadastroAluno: DadosCadastroAluno): Observable<unknown> {
@@ -50,5 +83,25 @@ export class AuthService {
       email: dadosCadastroEmpresa.email,
       cnpj: dadosCadastroEmpresa.cnpj,
     });
+  }
+
+  private lerPerfilArmazenado(): PerfilUsuario | null {
+    const perfil = localStorage.getItem('perfil');
+
+    return this.normalizarPerfil(perfil);
+  }
+
+  private normalizarPerfil(perfil: string | null): PerfilUsuario | null {
+    const perfilNormalizado = perfil?.trim().toUpperCase().replace('ROLE_', '');
+
+    if (
+      perfilNormalizado === 'ALUNO' ||
+      perfilNormalizado === 'PROFESSOR' ||
+      perfilNormalizado === 'EMPRESA'
+    ) {
+      return perfilNormalizado;
+    }
+
+    return null;
   }
 }

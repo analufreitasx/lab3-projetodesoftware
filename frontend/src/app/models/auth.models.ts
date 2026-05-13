@@ -1,4 +1,5 @@
 export type ModoAutenticacao = 'login' | 'cadastro-aluno' | 'cadastro-empresa';
+export type PerfilUsuario = 'ALUNO' | 'PROFESSOR' | 'EMPRESA';
 
 export interface DadosLogin {
   email: string;
@@ -27,5 +28,5 @@ export interface LoginResponse {
   tokenType: string;
   accessToken: string;
   expiresIn: number;
-  perfil: string;
+  perfil: PerfilUsuario;
 }

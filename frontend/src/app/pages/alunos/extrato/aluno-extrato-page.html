@@ -1,0 +1,28 @@
+<main class="px-5 py-10 sm:px-8 lg:py-14">
+  <section class="mx-auto w-full max-w-5xl" aria-labelledby="aluno-extrato-title">
+    <p class="text-sm font-semibold uppercase tracking-[0.25em] text-primary-200">Extrato do aluno</p>
+    <h1 id="aluno-extrato-title" class="mt-4 text-4xl font-bold tracking-tight text-white sm:text-5xl">
+      Movimentações de moedas
+    </h1>
+
+    <div class="mt-8 space-y-4">
+      @for (lancamento of lancamentosAluno; track lancamento.id) {
+        <article class="rounded-3xl border border-primary-300/15 bg-surface-900/75 p-5 shadow-xl shadow-primary-950/20">
+          <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <h2 class="text-lg font-semibold text-white">{{ lancamento.descricao }}</h2>
+              <p class="mt-1 text-sm text-slate-400">{{ lancamento.origem }} · {{ lancamento.data }}</p>
+            </div>
+            <strong
+              class="text-lg"
+              [class.text-primary-100]="lancamento.quantidadeMoedas > 0"
+              [class.text-red-300]="lancamento.quantidadeMoedas < 0"
+            >
+              {{ lancamento.quantidadeMoedas > 0 ? '+' : '' }}{{ lancamento.quantidadeMoedas }} moedas
+            </strong>
+          </div>
+        </article>
+      }
+    </div>
+  </section>
+</main>

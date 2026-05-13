@@ -13,25 +13,53 @@
       </span>
     </a>
 
-    <button
-      type="button"
-      class="inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-300 focus-visible:ring-offset-2 focus-visible:ring-offset-night-950"
-      [class.border]="actionVariant() === 'outline'"
-      [class.border-primary-300/50]="actionVariant() === 'outline'"
-      [class.bg-transparent]="actionVariant() === 'outline'"
-      [class.text-primary-100]="actionVariant() === 'outline'"
-      [class.hover:bg-primary-400/10]="actionVariant() === 'outline'"
-      [class.bg-primary-500]="actionVariant() === 'solid'"
-      [class.text-white]="actionVariant() === 'solid'"
-      [class.shadow-lg]="actionVariant() === 'solid'"
-      [class.shadow-primary-500/25]="actionVariant() === 'solid'"
-      [class.hover:bg-primary-400]="actionVariant() === 'solid'"
-      (click)="onActionClick()"
-    >
-      @if (actionVariant() === 'outline') {
-        <span aria-hidden="true">←</span>
+    <div class="flex items-center gap-4">
+      @if (itensNavegacao().length > 0) {
+        <div class="hidden items-center gap-5 md:flex" aria-label="Navegação do perfil">
+          @for (item of itensNavegacao(); track item.rota) {
+            <a
+              #rotaAtiva="routerLinkActive"
+              class="border-b-2 py-1 text-sm font-semibold transition hover:border-primary-300/40 hover:text-primary-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-300 focus-visible:ring-offset-2 focus-visible:ring-offset-night-950"
+              routerLinkActive=""
+              [routerLinkActiveOptions]="{ exact: true }"
+              [class.border-primary-300]="rotaAtiva.isActive"
+              [class.border-transparent]="!rotaAtiva.isActive"
+              [class.text-primary-100]="rotaAtiva.isActive"
+              [class.text-slate-300]="!rotaAtiva.isActive"
+              [routerLink]="item.rota"
+            >
+              {{ item.label }}
+            </a>
+          }
+        </div>
       }
-      {{ actionLabel() }}
-    </button>
+
+      @if (saldoLabel()) {
+        <span class="hidden rounded-full border border-primary-300/25 bg-primary-500/10 px-4 py-2 text-sm font-semibold text-primary-100 sm:inline-flex">
+          {{ saldoLabel() }}
+        </span>
+      }
+
+      <button
+        type="button"
+        class="inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-300 focus-visible:ring-offset-2 focus-visible:ring-offset-night-950"
+        [class.border]="actionVariant() === 'outline'"
+        [class.border-primary-300/50]="actionVariant() === 'outline'"
+        [class.bg-transparent]="actionVariant() === 'outline'"
+        [class.text-primary-100]="actionVariant() === 'outline'"
+        [class.hover:bg-primary-400/10]="actionVariant() === 'outline'"
+        [class.bg-primary-500]="actionVariant() === 'solid'"
+        [class.text-white]="actionVariant() === 'solid'"
+        [class.shadow-lg]="actionVariant() === 'solid'"
+        [class.shadow-primary-500/25]="actionVariant() === 'solid'"
+        [class.hover:bg-primary-400]="actionVariant() === 'solid'"
+        (click)="onActionClick()"
+      >
+        @if (actionVariant() === 'outline') {
+          <span aria-hidden="true">←</span>
+        }
+        {{ actionLabel() }}
+      </button>
+    </div>
   </nav>
 </header>
