@@ -1,10 +1,10 @@
 server:
   servlet:
-    context-path: /api/moeda-estudantil
+    context-path: /api/karv-coins
 
 spring:
   application:
-    name: moeda-estudantil
+    name: karv-coins
   datasource:
     url: jdbc:sqlserver://moeda-estudantil.database.windows.net:1433;database=db-moeda-estudantil-des;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;
     username: moedaestudantil@moeda-estudantil
@@ -20,7 +20,7 @@ spring:
 app:
   security:
     jwt:
-      issuer: moeda-estudantil
+      issuer: karv-coins
       expiration-seconds: 3600
       secret: ${JWT_SECRET:jwtsecretasdasdasdsd}
 

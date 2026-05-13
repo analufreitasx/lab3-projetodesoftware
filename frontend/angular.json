@@ -7,7 +7,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "MoedaEstudantil": {
+    "KarvCoins": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -55,10 +55,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "MoedaEstudantil:build:production"
+              "buildTarget": "KarvCoins:build:production"
             },
             "development": {
-              "buildTarget": "MoedaEstudantil:build:development"
+              "buildTarget": "KarvCoins:build:development"
             }
           },
           "defaultConfiguration": "development"

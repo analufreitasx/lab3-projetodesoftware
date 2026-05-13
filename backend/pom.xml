@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>br.pucminas</groupId>
-	<artifactId>moeda-estudantil</artifactId>
+	<artifactId>karv-coins</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name/>
 	<description/>

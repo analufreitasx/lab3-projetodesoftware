@@ -112,7 +112,7 @@ cd backend
 .\mvnw.cmd spring-boot:run
 ```
 
-A API ficará disponível em `http://localhost:8080/api/moeda-estudantil`.
+A API ficará disponível em `http://localhost:8080/api/karv-coins`.
 
 ### Front-end
 
@@ -132,8 +132,8 @@ A documentação interativa dos endpoints é gerada automaticamente pelo springd
 
 | Recurso | URL |
 |---|---|
-| Swagger UI | `http://localhost:8080/api/moeda-estudantil/swagger-ui.html` |
-| OpenAPI (JSON) | `http://localhost:8080/api/moeda-estudantil/v3/api-docs` |
+| Swagger UI | `http://localhost:8080/api/karv-coins/swagger-ui.html` |
+| OpenAPI (JSON) | `http://localhost:8080/api/karv-coins/v3/api-docs` |
 
 > ℹ️ A interface do Swagger é disponibilizada **apenas para visualização** dos contratos da API (endpoints, parâmetros, schemas dos DTOs e códigos de resposta). Não é o canal recomendado para testes manuais — utilize o front-end ou uma ferramenta como Postman/Insomnia importando o documento OpenAPI.
 
@@ -144,7 +144,7 @@ A documentação interativa dos endpoints é gerada automaticamente pelo springd
 ```
 lab3-projetodesoftware/
 ├── backend/                          # API Spring Boot (Java 21)
-│   ├── src/main/java/br/pucminas/moeda_estudantil/
+│   ├── src/main/java/br/pucminas/karv_coins/
 │   │   ├── config/                   # SecurityConfig, OpenApiConfig, AuthDataInitializer
 │   │   ├── controller/               # Endpoints REST
 │   │   ├── dto/
