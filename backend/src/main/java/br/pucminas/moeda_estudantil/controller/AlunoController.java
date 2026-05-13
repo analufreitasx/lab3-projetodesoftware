@@ -4,6 +4,9 @@ import br.pucminas.moeda_estudantil.dto.request.AtualizarAlunoRequestDto;
 import br.pucminas.moeda_estudantil.dto.request.CriarAlunoRequestDto;
 import br.pucminas.moeda_estudantil.dto.response.AlunoResponseDto;
 import br.pucminas.moeda_estudantil.service.AlunoService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirements;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -23,6 +26,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/alunos")
+@Tag(name = "Alunos", description = "Cadastro, consulta, atualização e remoção de alunos")
 public class AlunoController {
 
     private final AlunoService alunoService;
@@ -33,6 +37,8 @@ public class AlunoController {
 
 
     @PostMapping
+    @SecurityRequirements
+    @Operation(summary = "Cadastrar novo aluno", description = "Endpoint público de cadastro de aluno.")
     public ResponseEntity<Object> criar(@Valid @RequestBody CriarAlunoRequestDto request,
                                         BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -51,12 +57,14 @@ public class AlunoController {
 
 
     @GetMapping
+    @Operation(summary = "Listar todos os alunos")
     public ResponseEntity<List<AlunoResponseDto>> listarTodos() {
         return ResponseEntity.ok(alunoService.listarTodos());
     }
 
 
     @GetMapping("/{id}")
+    @Operation(summary = "Buscar aluno por ID")
     public ResponseEntity<Object> buscarPorId(@PathVariable Long id) {
         try {
             return ResponseEntity.ok(alunoService.buscarPorId(id));
@@ -67,6 +75,7 @@ public class AlunoController {
 
 
     @GetMapping("/cpf/{cpf}")
+    @Operation(summary = "Buscar aluno por CPF")
     public ResponseEntity<Object> buscarPorCpf(@PathVariable String cpf) {
         try {
             return ResponseEntity.ok(alunoService.buscarPorCpf(cpf));
@@ -77,6 +86,7 @@ public class AlunoController {
 
 
     @PatchMapping("/{id}")
+    @Operation(summary = "Atualizar dados do aluno", description = "Atualiza parcialmente os campos do aluno informado.")
     public ResponseEntity<Object> atualizar(@PathVariable Long id,
                                             @Valid @RequestBody AtualizarAlunoRequestDto request,
                                             BindingResult bindingResult) {
@@ -97,6 +107,7 @@ public class AlunoController {
 
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "Remover aluno")
     public ResponseEntity<Object> deletar(@PathVariable Long id) {
         try {
             alunoService.deletar(id);

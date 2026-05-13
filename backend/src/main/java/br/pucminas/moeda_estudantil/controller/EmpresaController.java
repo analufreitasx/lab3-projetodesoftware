@@ -4,6 +4,9 @@ import br.pucminas.moeda_estudantil.dto.request.AtualizarEmpresaRequestDto;
 import br.pucminas.moeda_estudantil.dto.request.CriarEmpresaRequestDto;
 import br.pucminas.moeda_estudantil.dto.response.EmpresaResponseDto;
 import br.pucminas.moeda_estudantil.service.EmpresaService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirements;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -22,6 +25,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/empresas")
+@Tag(name = "Empresas", description = "Cadastro, consulta e atualização de empresas parceiras")
 public class EmpresaController {
 
     private final EmpresaService empresaService;
@@ -32,6 +36,8 @@ public class EmpresaController {
 
 
     @PostMapping
+    @SecurityRequirements
+    @Operation(summary = "Cadastrar nova empresa", description = "Endpoint público de cadastro de empresa.")
     public ResponseEntity<Object> criar(@Valid @RequestBody CriarEmpresaRequestDto request,
                                         BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -50,12 +56,14 @@ public class EmpresaController {
 
 
     @GetMapping
+    @Operation(summary = "Listar todas as empresas")
     public ResponseEntity<List<EmpresaResponseDto>> listarTodos() {
         return ResponseEntity.ok(empresaService.listarTodos());
     }
 
 
     @GetMapping("/{id}")
+    @Operation(summary = "Buscar empresa por ID")
     public ResponseEntity<Object> buscarPorId(@PathVariable Long id) {
         try {
             return ResponseEntity.ok(empresaService.buscarPorId(id));
@@ -66,6 +74,7 @@ public class EmpresaController {
 
 
     @GetMapping("/cnpj/{cnpj}")
+    @Operation(summary = "Buscar empresa por CNPJ")
     public ResponseEntity<Object> buscarPorCnpj(@PathVariable String cnpj) {
         try {
             return ResponseEntity.ok(empresaService.buscarPorCnpj(cnpj));
@@ -76,6 +85,7 @@ public class EmpresaController {
 
 
     @PatchMapping("/{id}")
+    @Operation(summary = "Atualizar dados da empresa", description = "Atualiza parcialmente os campos da empresa informada.")
     public ResponseEntity<Object> atualizar(@PathVariable Long id,
                                             @Valid @RequestBody AtualizarEmpresaRequestDto request,
                                             BindingResult bindingResult) {
