@@ -1,8 +1,8 @@
 package br.pucminas.moeda_estudantil.service;
 
-import br.pucminas.moeda_estudantil.dto.empresa.AtualizarEmpresaRequest;
-import br.pucminas.moeda_estudantil.dto.empresa.CriarEmpresaRequest;
-import br.pucminas.moeda_estudantil.dto.empresa.EmpresaResponse;
+import br.pucminas.moeda_estudantil.dto.request.AtualizarEmpresaRequestDto;
+import br.pucminas.moeda_estudantil.dto.request.CriarEmpresaRequestDto;
+import br.pucminas.moeda_estudantil.dto.response.EmpresaResponseDto;
 import br.pucminas.moeda_estudantil.model.Empresa;
 import br.pucminas.moeda_estudantil.model.PerfilUsuario;
 import br.pucminas.moeda_estudantil.repository.EmpresaRepository;
@@ -31,7 +31,7 @@ public class EmpresaService {
     }
 
 
-    public EmpresaResponse criar(CriarEmpresaRequest request) {
+    public EmpresaResponseDto criar(CriarEmpresaRequestDto request) {
         if (empresaRepository.existsByCnpj(request.cnpj())) {
             throw new IllegalArgumentException("Já existe uma empresa cadastrada com esse CNPJ.");
         }
@@ -46,32 +46,32 @@ public class EmpresaService {
         empresa.setCnpj(request.cnpj());
         empresa.setPerfil(PerfilUsuario.EMPRESA);
 
-        return EmpresaResponse.from(empresaRepository.save(empresa));
+        return EmpresaResponseDto.from(empresaRepository.save(empresa));
     }
 
 
     @Transactional(readOnly = true)
-    public List<EmpresaResponse> listarTodos() {
+    public List<EmpresaResponseDto> listarTodos() {
         return empresaRepository.findAll()
                 .stream()
-                .map(EmpresaResponse::from)
+                .map(EmpresaResponseDto::from)
                 .toList();
     }
 
     @Transactional(readOnly = true)
-    public EmpresaResponse buscarPorId(Long id) {
-        return EmpresaResponse.from(encontrarPorId(id));
+    public EmpresaResponseDto buscarPorId(Long id) {
+        return EmpresaResponseDto.from(encontrarPorId(id));
     }
 
     @Transactional(readOnly = true)
-    public EmpresaResponse buscarPorCnpj(String cnpj) {
+    public EmpresaResponseDto buscarPorCnpj(String cnpj) {
         Empresa empresa = empresaRepository.findByCnpj(cnpj)
                 .orElseThrow(() -> new EntityNotFoundException("Empresa não encontrada com CNPJ: " + cnpj));
-        return EmpresaResponse.from(empresa);
+        return EmpresaResponseDto.from(empresa);
     }
 
 
-    public EmpresaResponse atualizar(Long id, AtualizarEmpresaRequest request) {
+    public EmpresaResponseDto atualizar(Long id, AtualizarEmpresaRequestDto request) {
         Empresa empresa = encontrarPorId(id);
 
         if (request.nome() != null && !request.nome().isBlank()) {
@@ -87,7 +87,7 @@ public class EmpresaService {
             empresa.setSenha(passwordEncoder.encode(request.senha()));
         }
 
-        return EmpresaResponse.from(empresaRepository.save(empresa));
+        return EmpresaResponseDto.from(empresaRepository.save(empresa));
     }
 
 

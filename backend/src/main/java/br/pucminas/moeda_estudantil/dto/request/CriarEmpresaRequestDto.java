@@ -1,10 +1,10 @@
-package br.pucminas.moeda_estudantil.dto.empresa;
+package br.pucminas.moeda_estudantil.dto.request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-public record CriarEmpresaRequest(
+public record CriarEmpresaRequestDto(
 
         @NotBlank(message = "O nome é obrigatório")
         String nome,

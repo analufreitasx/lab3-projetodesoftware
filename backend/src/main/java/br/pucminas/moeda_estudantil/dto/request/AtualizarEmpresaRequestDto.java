@@ -1,9 +1,9 @@
-package br.pucminas.moeda_estudantil.dto.empresa;
+package br.pucminas.moeda_estudantil.dto.request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
 
-public record AtualizarEmpresaRequest(
+public record AtualizarEmpresaRequestDto(
 
         String nome,
 

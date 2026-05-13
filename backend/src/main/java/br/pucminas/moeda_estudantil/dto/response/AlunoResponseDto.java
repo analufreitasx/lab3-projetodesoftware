@@ -1,8 +1,8 @@
-package br.pucminas.moeda_estudantil.dto.aluno;
+package br.pucminas.moeda_estudantil.dto.response;
 
 import br.pucminas.moeda_estudantil.model.Aluno;
 
-public record AlunoResponse(
+public record AlunoResponseDto(
         Long id,
         String nome,
         String email,
@@ -14,8 +14,8 @@ public record AlunoResponse(
         Double saldo,
         String perfil
 ) {
-    public static AlunoResponse from(Aluno aluno) {
-        return new AlunoResponse(
+    public static AlunoResponseDto from(Aluno aluno) {
+        return new AlunoResponseDto(
                 aluno.getId(),
                 aluno.getNome(),
                 aluno.getEmail(),

@@ -1,8 +1,8 @@
 package br.pucminas.moeda_estudantil.service;
 
-import br.pucminas.moeda_estudantil.dto.aluno.AlunoResponse;
-import br.pucminas.moeda_estudantil.dto.aluno.AtualizarAlunoRequest;
-import br.pucminas.moeda_estudantil.dto.aluno.CriarAlunoRequest;
+import br.pucminas.moeda_estudantil.dto.request.AtualizarAlunoRequestDto;
+import br.pucminas.moeda_estudantil.dto.request.CriarAlunoRequestDto;
+import br.pucminas.moeda_estudantil.dto.response.AlunoResponseDto;
 import br.pucminas.moeda_estudantil.model.Aluno;
 import br.pucminas.moeda_estudantil.model.PerfilUsuario;
 import br.pucminas.moeda_estudantil.repository.AlunoRepository;
@@ -32,7 +32,7 @@ public class AlunoService {
 
 
 
-    public AlunoResponse criar(CriarAlunoRequest request) {
+    public AlunoResponseDto criar(CriarAlunoRequestDto request) {
         if (alunoRepository.existsByCpf(request.cpf())) {
             throw new IllegalArgumentException("Já existe um aluno cadastrado com esse CPF.");
         }
@@ -55,34 +55,34 @@ public class AlunoService {
         aluno.setEndereco(request.endereco());
         aluno.setPerfil(PerfilUsuario.ALUNO);
 
-        return AlunoResponse.from(alunoRepository.save(aluno));
+        return AlunoResponseDto.from(alunoRepository.save(aluno));
     }
 
 
 
     @Transactional(readOnly = true)
-    public List<AlunoResponse> listarTodos() {
+    public List<AlunoResponseDto> listarTodos() {
         return alunoRepository.findAll()
                 .stream()
-                .map(AlunoResponse::from)
+                .map(AlunoResponseDto::from)
                 .toList();
     }
 
     @Transactional(readOnly = true)
-    public AlunoResponse buscarPorId(Long id) {
-        return AlunoResponse.from(encontrarPorId(id));
+    public AlunoResponseDto buscarPorId(Long id) {
+        return AlunoResponseDto.from(encontrarPorId(id));
     }
 
     @Transactional(readOnly = true)
-    public AlunoResponse buscarPorCpf(String cpf) {
+    public AlunoResponseDto buscarPorCpf(String cpf) {
         Aluno aluno = alunoRepository.findByCpf(cpf)
                 .orElseThrow(() -> new EntityNotFoundException("Aluno não encontrado com CPF: " + cpf));
-        return AlunoResponse.from(aluno);
+        return AlunoResponseDto.from(aluno);
     }
 
 
 
-    public AlunoResponse atualizar(Long id, AtualizarAlunoRequest request) {
+    public AlunoResponseDto atualizar(Long id, AtualizarAlunoRequestDto request) {
         Aluno aluno = encontrarPorId(id);
 
         if (request.nome() != null && !request.nome().isBlank()) {
@@ -105,7 +105,7 @@ public class AlunoService {
             aluno.setInstituicao(request.instituicao());
         }
 
-        return AlunoResponse.from(alunoRepository.save(aluno));
+        return AlunoResponseDto.from(alunoRepository.save(aluno));
     }
 
 

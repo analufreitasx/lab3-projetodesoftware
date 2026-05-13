@@ -1,3 +1,7 @@
+server:
+  servlet:
+    context-path: /api/moeda-estudantil
+
 spring:
   application:
     name: moeda-estudantil

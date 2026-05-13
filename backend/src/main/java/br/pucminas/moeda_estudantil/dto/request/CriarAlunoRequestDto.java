@@ -1,10 +1,10 @@
-package br.pucminas.moeda_estudantil.dto.aluno;
+package br.pucminas.moeda_estudantil.dto.request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-public record CriarAlunoRequest(
+public record CriarAlunoRequestDto(
 
         @NotBlank(message = "O nome é obrigatório")
         String nome,

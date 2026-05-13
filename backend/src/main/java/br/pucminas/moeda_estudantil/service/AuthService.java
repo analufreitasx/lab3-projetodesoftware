@@ -1,7 +1,7 @@
 package br.pucminas.moeda_estudantil.service;
 
-import br.pucminas.moeda_estudantil.dto.LoginRequest;
-import br.pucminas.moeda_estudantil.dto.LoginResponse;
+import br.pucminas.moeda_estudantil.dto.request.LoginRequestDto;
+import br.pucminas.moeda_estudantil.dto.response.LoginResponseDto;
 import br.pucminas.moeda_estudantil.model.Usuario;
 import br.pucminas.moeda_estudantil.repository.UsuarioRepository;
 import br.pucminas.moeda_estudantil.security.JwtTokenService;
@@ -25,7 +25,7 @@ public class AuthService {
         this.jwtTokenService = jwtTokenService;
     }
 
-    public LoginResponse login(LoginRequest request) {
+    public LoginResponseDto login(LoginRequestDto request) {
         Usuario usuario = usuarioRepository.findByEmail(request.email())
                 .orElseThrow(() -> new BadCredentialsException("E-mail ou senha invalidos"));
 
@@ -35,7 +35,7 @@ public class AuthService {
 
         String token = jwtTokenService.generateToken(usuario);
 
-        return new LoginResponse(
+        return new LoginResponseDto(
                 "Bearer",
                 token,
                 jwtTokenService.getExpirationSeconds(),

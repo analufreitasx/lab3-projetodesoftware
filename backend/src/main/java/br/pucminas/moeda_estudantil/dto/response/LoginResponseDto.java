@@ -1,6 +1,6 @@
-package br.pucminas.moeda_estudantil.dto;
+package br.pucminas.moeda_estudantil.dto.response;
 
-public record LoginResponse(
+public record LoginResponseDto(
         String tokenType,
         String accessToken,
         Long expiresIn,

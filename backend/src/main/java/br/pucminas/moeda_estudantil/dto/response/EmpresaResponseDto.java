@@ -1,16 +1,16 @@
-package br.pucminas.moeda_estudantil.dto.empresa;
+package br.pucminas.moeda_estudantil.dto.response;
 
 import br.pucminas.moeda_estudantil.model.Empresa;
 
-public record EmpresaResponse(
+public record EmpresaResponseDto(
         Long id,
         String nome,
         String email,
         String cnpj,
         String perfil
 ) {
-    public static EmpresaResponse from(Empresa empresa) {
-        return new EmpresaResponse(
+    public static EmpresaResponseDto from(Empresa empresa) {
+        return new EmpresaResponseDto(
                 empresa.getId(),
                 empresa.getNome(),
                 empresa.getEmail(),

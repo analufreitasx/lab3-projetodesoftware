@@ -1,8 +1,8 @@
 package br.pucminas.moeda_estudantil.controller;
 
-import br.pucminas.moeda_estudantil.dto.empresa.AtualizarEmpresaRequest;
-import br.pucminas.moeda_estudantil.dto.empresa.CriarEmpresaRequest;
-import br.pucminas.moeda_estudantil.dto.empresa.EmpresaResponse;
+import br.pucminas.moeda_estudantil.dto.request.AtualizarEmpresaRequestDto;
+import br.pucminas.moeda_estudantil.dto.request.CriarEmpresaRequestDto;
+import br.pucminas.moeda_estudantil.dto.response.EmpresaResponseDto;
 import br.pucminas.moeda_estudantil.service.EmpresaService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/empresas")
+@RequestMapping("/empresas")
 public class EmpresaController {
 
     private final EmpresaService empresaService;
@@ -32,7 +32,7 @@ public class EmpresaController {
 
 
     @PostMapping
-    public ResponseEntity<Object> criar(@Valid @RequestBody CriarEmpresaRequest request,
+    public ResponseEntity<Object> criar(@Valid @RequestBody CriarEmpresaRequestDto request,
                                         BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             String erros = bindingResult.getFieldErrors().stream()
@@ -41,7 +41,7 @@ public class EmpresaController {
             return ResponseEntity.badRequest().body(erros);
         }
         try {
-            EmpresaResponse response = empresaService.criar(request);
+            EmpresaResponseDto response = empresaService.criar(request);
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
@@ -50,7 +50,7 @@ public class EmpresaController {
 
 
     @GetMapping
-    public ResponseEntity<List<EmpresaResponse>> listarTodos() {
+    public ResponseEntity<List<EmpresaResponseDto>> listarTodos() {
         return ResponseEntity.ok(empresaService.listarTodos());
     }
 
@@ -77,7 +77,7 @@ public class EmpresaController {
 
     @PatchMapping("/{id}")
     public ResponseEntity<Object> atualizar(@PathVariable Long id,
-                                            @Valid @RequestBody AtualizarEmpresaRequest request,
+                                            @Valid @RequestBody AtualizarEmpresaRequestDto request,
                                             BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             String erros = bindingResult.getFieldErrors().stream()

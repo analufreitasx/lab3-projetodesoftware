@@ -1,8 +1,8 @@
 package br.pucminas.moeda_estudantil.controller;
 
-import br.pucminas.moeda_estudantil.dto.aluno.AlunoResponse;
-import br.pucminas.moeda_estudantil.dto.aluno.AtualizarAlunoRequest;
-import br.pucminas.moeda_estudantil.dto.aluno.CriarAlunoRequest;
+import br.pucminas.moeda_estudantil.dto.request.AtualizarAlunoRequestDto;
+import br.pucminas.moeda_estudantil.dto.request.CriarAlunoRequestDto;
+import br.pucminas.moeda_estudantil.dto.response.AlunoResponseDto;
 import br.pucminas.moeda_estudantil.service.AlunoService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/alunos")
+@RequestMapping("/alunos")
 public class AlunoController {
 
     private final AlunoService alunoService;
@@ -33,7 +33,7 @@ public class AlunoController {
 
 
     @PostMapping
-    public ResponseEntity<Object> criar(@Valid @RequestBody CriarAlunoRequest request,
+    public ResponseEntity<Object> criar(@Valid @RequestBody CriarAlunoRequestDto request,
                                         BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             String erros = bindingResult.getFieldErrors().stream()
@@ -42,7 +42,7 @@ public class AlunoController {
             return ResponseEntity.badRequest().body(erros);
         }
         try {
-            AlunoResponse response = alunoService.criar(request);
+            AlunoResponseDto response = alunoService.criar(request);
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
@@ -51,7 +51,7 @@ public class AlunoController {
 
 
     @GetMapping
-    public ResponseEntity<List<AlunoResponse>> listarTodos() {
+    public ResponseEntity<List<AlunoResponseDto>> listarTodos() {
         return ResponseEntity.ok(alunoService.listarTodos());
     }
 
@@ -78,7 +78,7 @@ public class AlunoController {
 
     @PatchMapping("/{id}")
     public ResponseEntity<Object> atualizar(@PathVariable Long id,
-                                            @Valid @RequestBody AtualizarAlunoRequest request,
+                                            @Valid @RequestBody AtualizarAlunoRequestDto request,
                                             BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             String erros = bindingResult.getFieldErrors().stream()
