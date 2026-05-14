@@ -6,16 +6,16 @@ spring:
   application:
     name: karv-coins
   datasource:
-    url: jdbc:sqlserver://moeda-estudantil.database.windows.net:1433;database=db-moeda-estudantil-des;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;
-    username: moedaestudantil@moeda-estudantil
+    url: jdbc:postgresql://ep-autumn-hall-acokcx3b-pooler.sa-east-1.aws.neon.tech/db-karv-coins-des?sslmode=require&channelBinding=require
+    username: karv-coins-db-owner
     password: ${DB_PASSWORD}
-    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
       ddl-auto: update
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.SQLServerDialect
+        dialect: org.hibernate.dialect.PostgreSQLDialect
 
 app:
   security:
