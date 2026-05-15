@@ -72,7 +72,15 @@ export class AuthService {
       rg: dadosCadastroAluno.rg,
       curso: dadosCadastroAluno.curso,
       instituicao: dadosCadastroAluno.instituicao,
-      endereco: dadosCadastroAluno.endereco,
+      endereco: {
+        cep: dadosCadastroAluno.endereco.cep,
+        rua: dadosCadastroAluno.endereco.rua,
+        numero: dadosCadastroAluno.endereco.numero,
+        complemento: dadosCadastroAluno.endereco.complemento,
+        bairro: dadosCadastroAluno.endereco.bairro,
+        cidade: dadosCadastroAluno.endereco.cidade,
+        uf: dadosCadastroAluno.endereco.uf,
+      },
     });
   }
 

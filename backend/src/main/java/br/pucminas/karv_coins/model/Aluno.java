@@ -1,6 +1,7 @@
 package br.pucminas.karv_coins.model;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.Data;
@@ -19,6 +20,9 @@ public class Aluno extends Usuario {
 
     private String curso;
     private String instituicao;
-    private String endereco;
+
+    @Embedded
+    private Endereco endereco;
+
     private Double saldo = 0.0;
 }

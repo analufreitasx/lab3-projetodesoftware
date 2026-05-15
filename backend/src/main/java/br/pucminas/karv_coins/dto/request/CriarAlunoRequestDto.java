@@ -1,7 +1,11 @@
 package br.pucminas.karv_coins.dto.request;
 
+import br.pucminas.karv_coins.dto.EnderecoDto;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public record CriarAlunoRequestDto(
@@ -10,7 +14,10 @@ public record CriarAlunoRequestDto(
         String nome,
 
         @NotBlank(message = "A senha é obrigatória")
-        @Size(min = 6, message = "A senha deve ter no mínimo 6 caracteres")
+        @Pattern(
+                regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^a-zA-Z\\d]).{6,}$",
+                message = "A senha deve ter no mínimo 6 caracteres, com uma letra maiúscula, uma minúscula, um número e um caractere especial"
+        )
         String senha,
 
         @NotBlank(message = "O e-mail é obrigatório")
@@ -30,6 +37,7 @@ public record CriarAlunoRequestDto(
         @NotBlank(message = "A instituição é obrigatória")
         String instituicao,
 
-        @NotBlank(message = "O endereço é obrigatório")
-        String endereco
+        @NotNull(message = "O endereço é obrigatório")
+        @Valid
+        EnderecoDto endereco
 ) {}

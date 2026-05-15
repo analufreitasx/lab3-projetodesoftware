@@ -1,5 +1,6 @@
 package br.pucminas.karv_coins.dto.response;
 
+import br.pucminas.karv_coins.dto.EnderecoDto;
 import br.pucminas.karv_coins.model.Aluno;
 
 public record AlunoResponseDto(
@@ -10,7 +11,7 @@ public record AlunoResponseDto(
         String rg,
         String curso,
         String instituicao,
-        String endereco,
+        EnderecoDto endereco,
         Double saldo,
         String perfil
 ) {
@@ -23,7 +24,7 @@ public record AlunoResponseDto(
                 aluno.getRg(),
                 aluno.getCurso(),
                 aluno.getInstituicao(),
-                aluno.getEndereco(),
+                EnderecoDto.from(aluno.getEndereco()),
                 aluno.getSaldo(),
                 aluno.getPerfil().name()
         );

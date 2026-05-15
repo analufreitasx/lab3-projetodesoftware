@@ -26,7 +26,7 @@ public class AuthDataInitializer {
         Usuario usuarioExistente = usuarioRepository.findByEmail("aluno@moeda.local").orElse(null);
         if (usuarioExistente instanceof Aluno aluno) {
             aluno.setNome("Aluno Demo");
-            aluno.setSenha(passwordEncoder.encode("123456"));
+            aluno.setSenha(passwordEncoder.encode("Teste@123"));
             aluno.setPerfil(PerfilUsuario.ALUNO);
             aluno.setCpf("00000000001");
             aluno.setRg("MG0000001");
@@ -39,7 +39,7 @@ public class AuthDataInitializer {
         Aluno aluno = new Aluno();
         aluno.setNome("Aluno Demo");
         aluno.setEmail("aluno@moeda.local");
-        aluno.setSenha(passwordEncoder.encode("123456"));
+        aluno.setSenha(passwordEncoder.encode("Teste@123"));
         aluno.setPerfil(PerfilUsuario.ALUNO);
         aluno.setCpf("00000000001");
         aluno.setRg("MG0000001");
@@ -52,7 +52,7 @@ public class AuthDataInitializer {
         Usuario usuarioExistente = usuarioRepository.findByEmail("professor@moeda.local").orElse(null);
         if (usuarioExistente instanceof Professor professor) {
             professor.setNome("Professor Demo");
-            professor.setSenha(passwordEncoder.encode("123456"));
+            professor.setSenha(passwordEncoder.encode("Teste@123"));
             professor.setPerfil(PerfilUsuario.PROFESSOR);
             professor.setDepartamento("Computacao");
             usuarioRepository.save(professor);
@@ -62,7 +62,7 @@ public class AuthDataInitializer {
         Professor professor = new Professor();
         professor.setNome("Professor Demo");
         professor.setEmail("professor@moeda.local");
-        professor.setSenha(passwordEncoder.encode("123456"));
+        professor.setSenha(passwordEncoder.encode("Teste@123"));
         professor.setPerfil(PerfilUsuario.PROFESSOR);
         professor.setDepartamento("Computacao");
         usuarioRepository.save(professor);
@@ -72,7 +72,7 @@ public class AuthDataInitializer {
         Usuario usuarioExistente = usuarioRepository.findByEmail("empresa@moeda.local").orElse(null);
         if (usuarioExistente instanceof Empresa empresa) {
             empresa.setNome("Empresa Demo");
-            empresa.setSenha(passwordEncoder.encode("123456"));
+            empresa.setSenha(passwordEncoder.encode("Teste@123"));
             empresa.setPerfil(PerfilUsuario.EMPRESA);
             empresa.setCnpj("00000000000100");
             usuarioRepository.save(empresa);
@@ -82,7 +82,7 @@ public class AuthDataInitializer {
         Empresa empresa = new Empresa();
         empresa.setNome("Empresa Demo");
         empresa.setEmail("empresa@moeda.local");
-        empresa.setSenha(passwordEncoder.encode("123456"));
+        empresa.setSenha(passwordEncoder.encode("Teste@123"));
         empresa.setPerfil(PerfilUsuario.EMPRESA);
         empresa.setCnpj("00000000000100");
         usuarioRepository.save(empresa);

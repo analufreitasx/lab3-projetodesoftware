@@ -159,24 +159,183 @@
                 }
               </div>
 
-              <div class="sm:col-span-2">
-                <label class="mb-2 block text-sm font-medium text-slate-200" for="student-address"
-                  >Endereço</label
+              <div class="sm:col-span-2" formGroupName="endereco">
+                <label class="mb-2 block text-sm font-medium text-slate-200" for="student-cep"
+                  >CEP</label
                 >
-                <input
-                  id="student-address"
-                  class="w-full rounded-2xl border border-primary-300/15 bg-surface-950 px-4 py-3 text-white outline-none transition focus:border-primary-300 focus:ring-2 focus:ring-primary-400/30"
-                  type="text"
-                  formControlName="endereco"
-                  autocomplete="street-address"
-                  [attr.aria-invalid]="deveMostrarErro(formularioAluno.controls.endereco)"
-                  aria-describedby="student-address-error"
-                />
-                @if (deveMostrarErro(formularioAluno.controls.endereco)) {
-                  <p id="student-address-error" class="mt-2 text-sm text-red-300">
-                    Informe seu endereço.
+                <div class="relative">
+                  <input
+                    id="student-cep"
+                    class="w-full rounded-2xl border border-primary-300/15 bg-surface-950 px-4 py-3 pr-12 text-white outline-none transition focus:border-primary-300 focus:ring-2 focus:ring-primary-400/30"
+                    type="text"
+                    inputmode="numeric"
+                    maxlength="9"
+                    formControlName="cep"
+                    autocomplete="postal-code"
+                    (input)="aoDigitarCep($event)"
+                    [attr.aria-invalid]="deveMostrarErro(formularioAluno.controls.endereco.controls.cep)"
+                    aria-describedby="student-cep-error"
+                  />
+                  @if (buscandoCep()) {
+                    <div
+                      class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400"
+                      role="status"
+                      aria-label="Buscando endereço"
+                    >
+                      <svg
+                        class="h-5 w-5 animate-spin"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                      >
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 0 1 8-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 0 1 4 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                    </div>
+                  }
+                </div>
+                @if (deveMostrarErro(formularioAluno.controls.endereco.controls.cep)) {
+                  <p id="student-cep-error" class="mt-2 text-sm text-red-300">
+                    Informe um CEP válido (8 dígitos).
                   </p>
                 }
+
+                @if (!enderecoExpandido()) {
+                  <button
+                    type="button"
+                    class="mt-3 text-sm font-medium text-primary-200 underline-offset-4 transition hover:text-primary-100 hover:underline focus:outline-none focus-visible:underline"
+                    (click)="naoSeiCep()"
+                  >
+                    Não sei meu CEP
+                  </button>
+                }
+
+                <div
+                  class="grid transition-all duration-300 ease-out"
+                  [style.grid-template-rows]="enderecoExpandido() ? '1fr' : '0fr'"
+                  [style.opacity]="enderecoExpandido() ? 1 : 0"
+                  [attr.inert]="enderecoExpandido() ? null : ''"
+                  [attr.aria-hidden]="!enderecoExpandido()"
+                >
+                  <div class="overflow-hidden">
+                    <div class="mt-5 grid gap-5 sm:grid-cols-2">
+                      <div class="sm:col-span-2">
+                        <label class="mb-2 block text-sm font-medium text-slate-200" for="student-rua"
+                          >Rua</label
+                        >
+                        <input
+                          id="student-rua"
+                          class="w-full rounded-2xl border border-primary-300/15 bg-surface-950 px-4 py-3 text-white outline-none transition focus:border-primary-300 focus:ring-2 focus:ring-primary-400/30"
+                          type="text"
+                          formControlName="rua"
+                          autocomplete="street-address"
+                          [attr.aria-invalid]="deveMostrarErro(formularioAluno.controls.endereco.controls.rua)"
+                          aria-describedby="student-rua-error"
+                        />
+                        @if (deveMostrarErro(formularioAluno.controls.endereco.controls.rua)) {
+                          <p id="student-rua-error" class="mt-2 text-sm text-red-300">
+                            Informe a rua.
+                          </p>
+                        }
+                      </div>
+
+                      <div>
+                        <label class="mb-2 block text-sm font-medium text-slate-200" for="student-numero"
+                          >Número</label
+                        >
+                        <input
+                          id="student-numero"
+                          class="w-full rounded-2xl border border-primary-300/15 bg-surface-950 px-4 py-3 text-white outline-none transition focus:border-primary-300 focus:ring-2 focus:ring-primary-400/30"
+                          type="text"
+                          formControlName="numero"
+                          autocomplete="off"
+                          [attr.aria-invalid]="deveMostrarErro(formularioAluno.controls.endereco.controls.numero)"
+                          aria-describedby="student-numero-error"
+                        />
+                        @if (deveMostrarErro(formularioAluno.controls.endereco.controls.numero)) {
+                          <p id="student-numero-error" class="mt-2 text-sm text-red-300">
+                            Informe o número.
+                          </p>
+                        }
+                      </div>
+
+                      <div>
+                        <label class="mb-2 block text-sm font-medium text-slate-200" for="student-complemento"
+                          >Complemento <span class="text-slate-400">(opcional)</span></label
+                        >
+                        <input
+                          id="student-complemento"
+                          class="w-full rounded-2xl border border-primary-300/15 bg-surface-950 px-4 py-3 text-white outline-none transition focus:border-primary-300 focus:ring-2 focus:ring-primary-400/30"
+                          type="text"
+                          formControlName="complemento"
+                          autocomplete="address-line2"
+                        />
+                      </div>
+
+                      <div class="sm:col-span-2">
+                        <label class="mb-2 block text-sm font-medium text-slate-200" for="student-bairro"
+                          >Bairro</label
+                        >
+                        <input
+                          id="student-bairro"
+                          class="w-full rounded-2xl border border-primary-300/15 bg-surface-950 px-4 py-3 text-white outline-none transition focus:border-primary-300 focus:ring-2 focus:ring-primary-400/30"
+                          type="text"
+                          formControlName="bairro"
+                          autocomplete="address-level3"
+                          [attr.aria-invalid]="deveMostrarErro(formularioAluno.controls.endereco.controls.bairro)"
+                          aria-describedby="student-bairro-error"
+                        />
+                        @if (deveMostrarErro(formularioAluno.controls.endereco.controls.bairro)) {
+                          <p id="student-bairro-error" class="mt-2 text-sm text-red-300">
+                            Informe o bairro.
+                          </p>
+                        }
+                      </div>
+
+                      <div>
+                        <label class="mb-2 block text-sm font-medium text-slate-200" for="student-cidade"
+                          >Cidade</label
+                        >
+                        <input
+                          id="student-cidade"
+                          class="w-full rounded-2xl border border-primary-300/15 bg-surface-950 px-4 py-3 text-white outline-none transition focus:border-primary-300 focus:ring-2 focus:ring-primary-400/30"
+                          type="text"
+                          formControlName="cidade"
+                          autocomplete="address-level2"
+                          [attr.aria-invalid]="deveMostrarErro(formularioAluno.controls.endereco.controls.cidade)"
+                          aria-describedby="student-cidade-error"
+                        />
+                        @if (deveMostrarErro(formularioAluno.controls.endereco.controls.cidade)) {
+                          <p id="student-cidade-error" class="mt-2 text-sm text-red-300">
+                            Informe a cidade.
+                          </p>
+                        }
+                      </div>
+
+                      <div>
+                        <label class="mb-2 block text-sm font-medium text-slate-200" for="student-uf"
+                          >UF</label
+                        >
+                        <input
+                          id="student-uf"
+                          class="w-full rounded-2xl border border-primary-300/15 bg-surface-950 px-4 py-3 text-white uppercase outline-none transition focus:border-primary-300 focus:ring-2 focus:ring-primary-400/30"
+                          type="text"
+                          maxlength="2"
+                          formControlName="uf"
+                          autocomplete="address-level1"
+                          [attr.aria-invalid]="deveMostrarErro(formularioAluno.controls.endereco.controls.uf)"
+                          aria-describedby="student-uf-error"
+                        />
+                        @if (deveMostrarErro(formularioAluno.controls.endereco.controls.uf)) {
+                          <p id="student-uf-error" class="mt-2 text-sm text-red-300">
+                            Informe a UF (2 letras).
+                          </p>
+                        }
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
 
               <div>
@@ -245,18 +404,82 @@
                 <label class="mb-2 block text-sm font-medium text-slate-200" for="student-senha"
                   >Senha</label
                 >
-                <input
-                  id="student-senha"
-                  class="w-full rounded-2xl border border-primary-300/15 bg-surface-950 px-4 py-3 text-white outline-none transition focus:border-primary-300 focus:ring-2 focus:ring-primary-400/30"
-                  type="password"
-                  formControlName="senha"
-                  autocomplete="new-password"
-                  [attr.aria-invalid]="deveMostrarErro(formularioAluno.controls.senha)"
-                  aria-describedby="student-senha-error"
-                />
+                <div class="relative">
+                  <input
+                    id="student-senha"
+                    class="w-full rounded-2xl border border-primary-300/15 bg-surface-950 px-4 py-3 pr-12 text-white outline-none transition focus:border-primary-300 focus:ring-2 focus:ring-primary-400/30"
+                    [type]="mostrarSenhaAluno() ? 'text' : 'password'"
+                    formControlName="senha"
+                    autocomplete="new-password"
+                    [attr.aria-invalid]="deveMostrarErro(formularioAluno.controls.senha)"
+                    aria-describedby="student-senha-error"
+                  />
+                  <button
+                    type="button"
+                    class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 transition hover:text-slate-100 focus:outline-none focus-visible:text-slate-100"
+                    (click)="mostrarSenhaAluno.update(v => !v)"
+                    [attr.aria-label]="mostrarSenhaAluno() ? 'Ocultar senha' : 'Mostrar senha'"
+                    [attr.aria-pressed]="mostrarSenhaAluno()"
+                  >
+                    @if (mostrarSenhaAluno()) {
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88" />
+                      </svg>
+                    } @else {
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                      </svg>
+                    }
+                  </button>
+                </div>
                 @if (deveMostrarErro(formularioAluno.controls.senha)) {
                   <p id="student-senha-error" class="mt-2 text-sm text-red-300">
-                    A senha deve ter pelo menos 6 caracteres.
+                    A senha deve ter no mínimo 6 caracteres, com uma letra maiúscula, uma minúscula, um número e um caractere especial.
+                  </p>
+                }
+              </div>
+
+              <div>
+                <label class="mb-2 block text-sm font-medium text-slate-200" for="student-confirmar-senha"
+                  >Confirme a senha</label
+                >
+                <div class="relative">
+                  <input
+                    id="student-confirmar-senha"
+                    class="w-full rounded-2xl border border-primary-300/15 bg-surface-950 px-4 py-3 pr-12 text-white outline-none transition focus:border-primary-300 focus:ring-2 focus:ring-primary-400/30"
+                    [type]="mostrarConfirmarSenhaAluno() ? 'text' : 'password'"
+                    formControlName="confirmarSenha"
+                    autocomplete="new-password"
+                    [attr.aria-invalid]="deveMostrarErro(formularioAluno.controls.confirmarSenha) || deveMostrarErroSenhasIguais(formularioAluno)"
+                    aria-describedby="student-confirmar-senha-error"
+                  />
+                  <button
+                    type="button"
+                    class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 transition hover:text-slate-100 focus:outline-none focus-visible:text-slate-100"
+                    (click)="mostrarConfirmarSenhaAluno.update(v => !v)"
+                    [attr.aria-label]="mostrarConfirmarSenhaAluno() ? 'Ocultar senha' : 'Mostrar senha'"
+                    [attr.aria-pressed]="mostrarConfirmarSenhaAluno()"
+                  >
+                    @if (mostrarConfirmarSenhaAluno()) {
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88" />
+                      </svg>
+                    } @else {
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                      </svg>
+                    }
+                  </button>
+                </div>
+                @if (deveMostrarErro(formularioAluno.controls.confirmarSenha)) {
+                  <p id="student-confirmar-senha-error" class="mt-2 text-sm text-red-300">
+                    Confirme sua senha.
+                  </p>
+                } @else if (deveMostrarErroSenhasIguais(formularioAluno)) {
+                  <p id="student-confirmar-senha-error" class="mt-2 text-sm text-red-300">
+                    As senhas não coincidem.
                   </p>
                 }
               </div>
@@ -344,18 +567,82 @@
                 <label class="mb-2 block text-sm font-medium text-slate-200" for="company-senha"
                   >Senha</label
                 >
-                <input
-                  id="company-senha"
-                  class="w-full rounded-2xl border border-primary-300/15 bg-surface-950 px-4 py-3 text-white outline-none transition focus:border-primary-300 focus:ring-2 focus:ring-primary-400/30"
-                  type="password"
-                  formControlName="senha"
-                  autocomplete="new-password"
-                  [attr.aria-invalid]="deveMostrarErro(formularioEmpresa.controls.senha)"
-                  aria-describedby="company-senha-error"
-                />
+                <div class="relative">
+                  <input
+                    id="company-senha"
+                    class="w-full rounded-2xl border border-primary-300/15 bg-surface-950 px-4 py-3 pr-12 text-white outline-none transition focus:border-primary-300 focus:ring-2 focus:ring-primary-400/30"
+                    [type]="mostrarSenhaEmpresa() ? 'text' : 'password'"
+                    formControlName="senha"
+                    autocomplete="new-password"
+                    [attr.aria-invalid]="deveMostrarErro(formularioEmpresa.controls.senha)"
+                    aria-describedby="company-senha-error"
+                  />
+                  <button
+                    type="button"
+                    class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 transition hover:text-slate-100 focus:outline-none focus-visible:text-slate-100"
+                    (click)="mostrarSenhaEmpresa.update(v => !v)"
+                    [attr.aria-label]="mostrarSenhaEmpresa() ? 'Ocultar senha' : 'Mostrar senha'"
+                    [attr.aria-pressed]="mostrarSenhaEmpresa()"
+                  >
+                    @if (mostrarSenhaEmpresa()) {
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88" />
+                      </svg>
+                    } @else {
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                      </svg>
+                    }
+                  </button>
+                </div>
                 @if (deveMostrarErro(formularioEmpresa.controls.senha)) {
                   <p id="company-senha-error" class="mt-2 text-sm text-red-300">
-                    A senha deve ter pelo menos 6 caracteres.
+                    A senha deve ter no mínimo 6 caracteres, com uma letra maiúscula, uma minúscula, um número e um caractere especial.
+                  </p>
+                }
+              </div>
+
+              <div>
+                <label class="mb-2 block text-sm font-medium text-slate-200" for="company-confirmar-senha"
+                  >Confirme a senha</label
+                >
+                <div class="relative">
+                  <input
+                    id="company-confirmar-senha"
+                    class="w-full rounded-2xl border border-primary-300/15 bg-surface-950 px-4 py-3 pr-12 text-white outline-none transition focus:border-primary-300 focus:ring-2 focus:ring-primary-400/30"
+                    [type]="mostrarConfirmarSenhaEmpresa() ? 'text' : 'password'"
+                    formControlName="confirmarSenha"
+                    autocomplete="new-password"
+                    [attr.aria-invalid]="deveMostrarErro(formularioEmpresa.controls.confirmarSenha) || deveMostrarErroSenhasIguais(formularioEmpresa)"
+                    aria-describedby="company-confirmar-senha-error"
+                  />
+                  <button
+                    type="button"
+                    class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 transition hover:text-slate-100 focus:outline-none focus-visible:text-slate-100"
+                    (click)="mostrarConfirmarSenhaEmpresa.update(v => !v)"
+                    [attr.aria-label]="mostrarConfirmarSenhaEmpresa() ? 'Ocultar senha' : 'Mostrar senha'"
+                    [attr.aria-pressed]="mostrarConfirmarSenhaEmpresa()"
+                  >
+                    @if (mostrarConfirmarSenhaEmpresa()) {
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88" />
+                      </svg>
+                    } @else {
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                      </svg>
+                    }
+                  </button>
+                </div>
+                @if (deveMostrarErro(formularioEmpresa.controls.confirmarSenha)) {
+                  <p id="company-confirmar-senha-error" class="mt-2 text-sm text-red-300">
+                    Confirme sua senha.
+                  </p>
+                } @else if (deveMostrarErroSenhasIguais(formularioEmpresa)) {
+                  <p id="company-confirmar-senha-error" class="mt-2 text-sm text-red-300">
+                    As senhas não coincidem.
                   </p>
                 }
               </div>
@@ -405,15 +692,35 @@
               <label class="mb-2 block text-sm font-medium text-slate-200" for="login-senha"
                 >Senha</label
               >
-              <input
-                id="login-senha"
-                class="w-full rounded-2xl border border-primary-300/15 bg-surface-950 px-4 py-3 text-white outline-none transition focus:border-primary-300 focus:ring-2 focus:ring-primary-400/30"
-                type="password"
-                formControlName="senha"
-                autocomplete="current-password"
-                [attr.aria-invalid]="deveMostrarErro(formularioLogin.controls.senha)"
-                aria-describedby="login-senha-error"
-              />
+              <div class="relative">
+                <input
+                  id="login-senha"
+                  class="w-full rounded-2xl border border-primary-300/15 bg-surface-950 px-4 py-3 pr-12 text-white outline-none transition focus:border-primary-300 focus:ring-2 focus:ring-primary-400/30"
+                  [type]="mostrarSenhaLogin() ? 'text' : 'password'"
+                  formControlName="senha"
+                  autocomplete="current-password"
+                  [attr.aria-invalid]="deveMostrarErro(formularioLogin.controls.senha)"
+                  aria-describedby="login-senha-error"
+                />
+                <button
+                  type="button"
+                  class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 transition hover:text-slate-100 focus:outline-none focus-visible:text-slate-100"
+                  (click)="mostrarSenhaLogin.update(v => !v)"
+                  [attr.aria-label]="mostrarSenhaLogin() ? 'Ocultar senha' : 'Mostrar senha'"
+                  [attr.aria-pressed]="mostrarSenhaLogin()"
+                >
+                  @if (mostrarSenhaLogin()) {
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 0 0 1.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.451 10.451 0 0 1 12 4.5c4.756 0 8.773 3.162 10.065 7.498a10.522 10.522 0 0 1-4.293 5.774M6.228 6.228 3 3m3.228 3.228 3.65 3.65m7.894 7.894L21 21m-3.228-3.228-3.65-3.65m0 0a3 3 0 1 0-4.243-4.243m4.242 4.242L9.88 9.88" />
+                    </svg>
+                  } @else {
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-5 w-5" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                    </svg>
+                  }
+                </button>
+              </div>
               @if (deveMostrarErro(formularioLogin.controls.senha)) {
                 <p id="login-senha-error" class="mt-2 text-sm text-red-300">
                   A senha deve ter pelo menos 6 caracteres.

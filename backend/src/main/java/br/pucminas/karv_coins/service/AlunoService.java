@@ -52,7 +52,7 @@ public class AlunoService {
         aluno.setRg(request.rg());
         aluno.setCurso(request.curso());
         aluno.setInstituicao(request.instituicao());
-        aluno.setEndereco(request.endereco());
+        aluno.setEndereco(request.endereco().toEntity());
         aluno.setPerfil(PerfilUsuario.ALUNO);
 
         return AlunoResponseDto.from(alunoRepository.save(aluno));

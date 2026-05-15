@@ -6,11 +6,21 @@ export interface DadosLogin {
   senha: string;
 }
 
+export interface DadosEndereco {
+  cep: string;
+  rua: string;
+  numero: string;
+  complemento: string;
+  bairro: string;
+  cidade: string;
+  uf: string;
+}
+
 export interface DadosCadastroAluno {
   nome: string;
   cpf: string;
   rg: string;
-  endereco: string;
+  endereco: DadosEndereco;
   instituicao: string;
   curso: string;
   email: string;
